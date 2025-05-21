@@ -16,7 +16,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.fragment.FragmentNavigator
-import com.example.feature.home.api.domain.HomeEntry
+import com.example.feature.home.api.HomeEntry
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

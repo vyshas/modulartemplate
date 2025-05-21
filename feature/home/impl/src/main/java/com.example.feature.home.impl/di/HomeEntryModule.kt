@@ -1,6 +1,6 @@
 package com.example.feature.home.impl.di
 
-import com.example.feature.home.api.domain.HomeEntry
+import com.example.feature.home.api.HomeEntry
 import com.example.feature.home.impl.ui.screen.HomeEntryImpl
 import dagger.Binds
 import dagger.Module

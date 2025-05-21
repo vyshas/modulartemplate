@@ -1,4 +1,4 @@
-package com.example.feature.home.api.domain
+package com.example.feature.home.api
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
