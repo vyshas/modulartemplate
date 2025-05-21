@@ -11,7 +11,6 @@ android {
 
     defaultConfig {
         applicationId = "com.example.demo.home.app"
-        applicationId = "com.example.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -39,8 +38,8 @@ android {
 dependencies {
     // Core utilities
     implementation(project(":core"))
+    implementation(project(":feature:home:api"))
     implementation(project(":feature:home:impl"))
-
 
     implementation(libs.androidx.core)
     implementation(libs.kotlin.stdlib)
@@ -53,6 +52,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.fragment.ktx)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -60,5 +61,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
     kapt(libs.hilt.compiler)
 }

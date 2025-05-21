@@ -24,7 +24,8 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    // Expose Flow<T> in your APIs
+    implementation(libs.androidx.navigation.compose)
+
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.coroutines.android)
 }
