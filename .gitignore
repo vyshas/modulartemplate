@@ -28,6 +28,7 @@ captures/
 *.ap_
 *.dex
 *.class
+*.hprof
 
 # Test results
 test-results/
