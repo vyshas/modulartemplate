@@ -1,4 +1,4 @@
-# Android Home Feature Project
+# Android Home Feature Project(Work in Progress)
 
 This project is an Android application module featuring a Home screen, built with Kotlin, Java, Gradle, and Hilt for dependency injection.
 It demonstrates architecture pattern that can be used for large scale android application where each features are isolated.
