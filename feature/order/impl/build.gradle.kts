@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:order:api"))
+    api(project(":feature:order:api"))
     implementation(project(":core"))
 
     api(libs.kotlinx.coroutines.core)
