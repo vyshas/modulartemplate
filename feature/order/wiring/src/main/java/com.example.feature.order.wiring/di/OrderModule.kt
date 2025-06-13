@@ -1,4 +1,4 @@
-package com.example.feature.order.impl.di
+package com.example.feature.order.wiring.di
 
 import com.example.feature.order.api.domain.usecase.GetOrderDetailsUseCase
 import com.example.feature.order.impl.data.api.OrderApi
@@ -22,7 +22,6 @@ abstract class OrderModule {
     ): GetOrderDetailsUseCase
 
     companion object {
-
         @Provides
         @Singleton
         fun provideOrderApi(): OrderApi = OrderApi()
@@ -32,5 +31,4 @@ abstract class OrderModule {
         fun provideOrderRepositoryImpl(api: OrderApi): OrderRepositoryImpl =
             OrderRepositoryImpl(api)
     }
-
-}
+} 

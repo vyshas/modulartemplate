@@ -1,4 +1,4 @@
-package com.example.feature.home.impl.di
+package com.example.feature.home.wiring.di
 
 import com.example.feature.home.api.HomeEntry
 import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
@@ -39,4 +39,4 @@ abstract class HomeModule {
             api: HomeApi
         ): HomeRepositoryImpl = HomeRepositoryImpl(api)
     }
-}
+} 

@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.android.library)
+    id("com.android.library")
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
 }
 
@@ -30,13 +30,18 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
+    implementation(libs.kotlin.stdlib)
     implementation(libs.compose.ui)
     implementation(libs.compose.material)
 
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-
+    ksp(libs.hilt.compiler)
 }
