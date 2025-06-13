@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt) // ✅ Use alias if defined
+    alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
 }
 
@@ -39,7 +39,7 @@ dependencies {
     // Core utilities
     implementation(project(":core"))
     implementation(project(":feature:home:api"))
-    implementation(project(":feature:home:impl"))
+    implementation(project(":feature:home:wiring"))
 
     implementation(libs.androidx.core)
     implementation(libs.kotlin.stdlib)
@@ -69,5 +69,5 @@ dependencies {
     implementation(libs.androidx.material3)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 }

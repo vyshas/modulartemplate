@@ -24,7 +24,7 @@ import javax.inject.Inject
 class DemoHomeActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var homeEntry: HomeEntry
+    lateinit var homeEntries: Set<@JvmSuppressWildcards HomeEntry>
 
     private lateinit var navController: NavHostController
     private var containerId: Int = 0
@@ -75,6 +75,7 @@ class DemoHomeActivity : AppCompatActivity() {
     private fun setupContent() {
         setContent {
             val rememberedNavController = remember { navController }
+            val homeEntry = homeEntries.first()
 
             Box(modifier = Modifier.fillMaxSize()) {
                 // Fragment container
