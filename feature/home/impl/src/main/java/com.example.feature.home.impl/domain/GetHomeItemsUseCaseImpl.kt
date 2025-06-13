@@ -6,8 +6,14 @@ import com.example.feature.home.api.domain.model.HomeItem
 import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
 import com.example.feature.home.impl.data.model.ApiHomeItem
 import com.example.feature.home.impl.data.repository.HomeRepositoryImpl
+import com.squareup.anvil.annotations.ContributesBinding
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
+@ContributesBinding(
+    scope = SingletonComponent::class,
+    boundType = GetHomeItemsUseCase::class
+)
 class GetHomeItemsUseCaseImpl @Inject constructor(
     private val homeRepositoryImpl: HomeRepositoryImpl
 ) : GetHomeItemsUseCase {

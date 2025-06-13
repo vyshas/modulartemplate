@@ -1,10 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt) // ✅ Use alias if defined
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.square.anvil)
+    alias(libs.plugins.kotlin.kapt) // last due to kapt quirks
 }
 
+anvil {
+    generateDaggerFactories.set(true)
+}
 
 android {
     namespace = "com.example.app"
@@ -75,4 +79,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    anvil(libs.anvil.compiler)
 }

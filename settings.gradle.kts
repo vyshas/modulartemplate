@@ -4,6 +4,9 @@ pluginManagement {
         google()
         mavenCentral()
     }
+    plugins {
+        id("com.squareup.anvil") version "2.4.6" apply false
+    }
 }
 
 dependencyResolutionManagement {

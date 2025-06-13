@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.fragment.FragmentNavigator
-import com.example.feature.home.api.HomeEntry
+import com.example.core.navigation.FeatureEntry
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var entries: Set<@JvmSuppressWildcards HomeEntry>
+    lateinit var featureEntries: Set<@JvmSuppressWildcards FeatureEntry>
 
     private lateinit var navController: NavHostController
     private var fragmentContainerId: Int = View.NO_ID // Initialize with a sensible default
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             MainAppUI(
                 navController = navController,
-                homeEntries = entries,
+                featureEntries = featureEntries,
                 fragmentContainerFactory = this::createFragmentContainer
             )
         }

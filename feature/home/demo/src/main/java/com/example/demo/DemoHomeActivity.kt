@@ -16,7 +16,8 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.fragment.FragmentNavigator
-import com.example.feature.home.api.HomeEntry
+import com.example.core.navigation.FeatureEntry
+import com.example.feature.home.api.HomeRoute
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ import javax.inject.Inject
 class DemoHomeActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var homeEntry: HomeEntry
+    lateinit var featureEntries: Set<@JvmSuppressWildcards FeatureEntry>
 
     private lateinit var navController: NavHostController
     private var containerId: Int = 0
@@ -86,9 +87,17 @@ class DemoHomeActivity : AppCompatActivity() {
                 // Navigation host
                 NavHost(
                     navController = rememberedNavController,
-                    startDestination = homeEntry.route()
+                    startDestination = featureEntries.first {
+                        it.route() == HomeRoute.ROUTE
+                    }
+                        .route()
                 ) {
-                    homeEntry.run { register(rememberedNavController) }
+                    featureEntries.forEach { featureEntry ->
+                        with(featureEntry) {
+                            this@NavHost.register(rememberedNavController)
+                        }
+                    }
+
                 }
             }
         }

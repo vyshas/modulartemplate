@@ -1,8 +1,13 @@
 plugins {
     id("com.android.library")
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.square.anvil)
+    alias(libs.plugins.kotlin.kapt)
+}
+
+anvil {
+    generateDaggerFactories.set(true)
 }
 
 android {
@@ -36,6 +41,7 @@ dependencies {
     implementation(project(":core"))
 
     api(libs.kotlinx.coroutines.core)
+    api(libs.anvil.annotations)
 
     implementation(libs.androidx.core)
     implementation(libs.kotlin.stdlib)
@@ -52,4 +58,5 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    anvil(libs.anvil.compiler)
 }
