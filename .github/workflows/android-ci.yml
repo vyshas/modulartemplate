@@ -1,6 +1,24 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - feature/**
+      - task/**
+      - hotfix/**
+  pull_request:
+    branches:
+      - master
+      - develop
+      - feature/**
+      - task/**
+      - hotfix/**
+
 jobs:
   build:
-    name: Build Project and Demo
+    name: Build app and demo
     runs-on: ubuntu-latest
 
     steps:
@@ -26,5 +44,5 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      - name: Build app and home demo builds
+      - name: Build app and home demo
         run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug --no-daemon
