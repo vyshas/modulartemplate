@@ -1,0 +1,33 @@
+jobs:
+  build:
+    name: Build Project and Demo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}
+
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Build all modules
+        run: ./gradlew build --no-daemon
+
+      - name: ✅ Assemble Demo APK
+        run: ./gradlew :feature:home:demo:assembleDebug --no-daemon
