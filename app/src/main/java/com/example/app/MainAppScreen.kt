@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home // Assuming you'll add more icons
 import androidx.compose.material.icons.filled.ShoppingCart // Example for Order
@@ -24,6 +27,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.core.navigation.FeatureEntry
 import com.example.feature.home.api.HomeEntry
 
 sealed class BottomNavItem(
@@ -48,7 +52,7 @@ sealed class BottomNavItem(
 @Composable
 fun MainAppUI(
     navController: NavHostController,
-    homeEntries: Set<@JvmSuppressWildcards HomeEntry>, // Renamed for clarity
+    featureEntries: Set<@JvmSuppressWildcards FeatureEntry>,
     fragmentContainerFactory: (Context) -> FrameLayout
 ) {
     val rememberedNavController = remember { navController }
@@ -56,7 +60,7 @@ fun MainAppUI(
 
     // If homeEntries is empty, use the first entry's route or a default
     val startDestination =
-        homeEntries.firstOrNull()?.route() ?: BottomNavItem.Home.route // Fallback needed
+        featureEntries.firstOrNull()?.route() ?: BottomNavItem.Home.route // Fallback needed
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Fragment container
@@ -70,7 +74,7 @@ fun MainAppUI(
             navController = rememberedNavController,
             startDestination = startDestination
         ) {
-            homeEntries.forEach { entry ->
+            featureEntries.forEach { entry ->
                 entry.run { register(rememberedNavController) }
             }
             composable(BottomNavItem.Order.route) { // Use route from sealed class
@@ -82,7 +86,7 @@ fun MainAppUI(
                 }
             }
             // A placeholder if no home entries are registered and startDestination is the default
-            if (homeEntries.isEmpty() && startDestination == BottomNavItem.Home.route) {
+            if (featureEntries.isEmpty() && startDestination == BottomNavItem.Home.route) {
                 composable(BottomNavItem.Home.route) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Text("Home Screen - No Modules Loaded")
@@ -96,7 +100,7 @@ fun MainAppUI(
         BottomNavigation(modifier = Modifier.align(Alignment.BottomCenter)) {
             bottomNavItems.forEach { item ->
                 val actualRoute = if (item == BottomNavItem.Home) {
-                    homeEntries.firstOrNull()?.route()
+                    featureEntries.firstOrNull()?.route()
                         ?: item.route // Use actual home entry route if available
                 } else {
                     item.route
@@ -104,7 +108,7 @@ fun MainAppUI(
                 BottomNavigationItem(
                     icon = { Icon(item.icon, contentDescription = item.label) },
                     label = { Text(item.label) },
-                    selected = selectedRoute == actualRoute || (selectedRoute == BottomNavItem.Home.route && actualRoute == homeEntries.firstOrNull()
+                    selected = selectedRoute == actualRoute || (selectedRoute == BottomNavItem.Home.route && actualRoute == featureEntries.firstOrNull()
                         ?.route()),
                     onClick = {
                         selectedRoute = actualRoute
@@ -168,7 +172,7 @@ fun DefaultPreview() {
     // YourAppTheme {
     MainAppUI(
         navController = mockNavController,
-        homeEntries = mockEntries,
+        featureEntries = mockEntries,
         fragmentContainerFactory = mockFragmentContainerFactory
     )
     // }

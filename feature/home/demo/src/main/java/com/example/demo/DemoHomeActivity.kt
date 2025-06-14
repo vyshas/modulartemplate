@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Text
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
@@ -16,6 +17,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.fragment.FragmentNavigator
+import com.example.core.navigation.FeatureEntry
 import com.example.feature.home.api.HomeEntry
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,7 +26,7 @@ import javax.inject.Inject
 class DemoHomeActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var homeEntries: Set<@JvmSuppressWildcards HomeEntry>
+    lateinit var featureEntries: Set<@JvmSuppressWildcards FeatureEntry>
 
     private lateinit var navController: NavHostController
     private var containerId: Int = 0
@@ -75,7 +77,9 @@ class DemoHomeActivity : AppCompatActivity() {
     private fun setupContent() {
         setContent {
             val rememberedNavController = remember { navController }
-            val homeEntry = homeEntries.first()
+            val homeEntry = featureEntries
+                .filterIsInstance<HomeEntry>()
+                .firstOrNull()
 
             Box(modifier = Modifier.fillMaxSize()) {
                 // Fragment container
@@ -83,14 +87,20 @@ class DemoHomeActivity : AppCompatActivity() {
                     factory = { context -> createFragmentContainer(context) },
                     modifier = Modifier.fillMaxSize()
                 )
-
-                // Navigation host
-                NavHost(
-                    navController = rememberedNavController,
-                    startDestination = homeEntry.route()
-                ) {
-                    homeEntry.run { register(rememberedNavController) }
+                if (homeEntry != null) {
+                    // Navigation host
+                    NavHost(
+                        navController = rememberedNavController,
+                        startDestination = homeEntry.route()
+                    ) {
+                        homeEntry.run { register(rememberedNavController) }
+                    }
+                } else {
+                    Box(Modifier.fillMaxSize()) {
+                        Text("Home feature not found")
+                    }
                 }
+
             }
         }
     }
