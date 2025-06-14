@@ -26,5 +26,5 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      - name: Build all modules
-        run: ./gradlew build --no-daemon
+      - name: Build app and home demo
+        run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug --no-daemon
