@@ -28,6 +28,3 @@ jobs:
 
       - name: Build all modules
         run: ./gradlew build --no-daemon
-
-      - name: ✅ Assemble Demo APK
-        run: ./gradlew :feature:home:demo:assembleDebug --no-daemon
