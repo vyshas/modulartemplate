@@ -1,6 +1,6 @@
 package com.example.feature.home.wiring.di
 
-import com.example.feature.home.api.HomeEntry
+import com.example.core.navigation.FeatureEntry
 import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
 import com.example.feature.home.impl.data.api.HomeApi
 import com.example.feature.home.impl.data.repository.HomeRepositoryImpl
@@ -26,7 +26,7 @@ abstract class HomeModule {
 
     @Binds
     @IntoSet
-    abstract fun bindHomeEntry(homeEntryImpl: HomeEntryImpl): HomeEntry
+    abstract fun bindHomeEntry(homeEntryImpl: HomeEntryImpl): FeatureEntry
 
     companion object {
         @Provides
