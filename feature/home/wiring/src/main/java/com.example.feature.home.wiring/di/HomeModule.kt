@@ -1,6 +1,7 @@
 package com.example.feature.home.wiring.di
 
 import com.example.core.navigation.FeatureEntry
+import com.example.feature.home.api.data.HomeRepository
 import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
 import com.example.feature.home.impl.data.api.HomeApi
 import com.example.feature.home.impl.data.repository.HomeRepositoryImpl
@@ -25,6 +26,12 @@ abstract class HomeModule {
     ): GetHomeItemsUseCase
 
     @Binds
+    @Singleton
+    abstract fun bindHomeRepository(
+        impl: HomeRepositoryImpl
+    ): HomeRepository
+
+    @Binds
     @IntoSet
     abstract fun bindHomeEntry(homeEntryImpl: HomeEntryImpl): FeatureEntry
 
@@ -32,11 +39,5 @@ abstract class HomeModule {
         @Provides
         @Singleton
         fun provideHomeApi(): HomeApi = HomeApi()
-
-        @Provides
-        @Singleton
-        fun provideHomeRepositoryImpl(
-            api: HomeApi
-        ): HomeRepositoryImpl = HomeRepositoryImpl(api)
     }
-} 
+}

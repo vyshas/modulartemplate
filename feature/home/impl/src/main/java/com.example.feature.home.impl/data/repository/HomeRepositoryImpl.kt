@@ -1,19 +1,26 @@
 package com.example.feature.home.impl.data.repository
 
-import com.example.core.network.ApiResult
+import com.example.core.domain.DomainResult
+import com.example.feature.home.api.data.HomeRepository
+import com.example.feature.home.api.domain.model.HomeItem
 import com.example.feature.home.impl.data.api.HomeApi
 import com.example.feature.home.impl.data.model.ApiHomeItem
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
     private val api: HomeApi
-) {
+) : HomeRepository {
 
-    suspend fun getHomeItems(): ApiResult<List<ApiHomeItem>> {
+    override suspend fun getHomeItems(): DomainResult<List<HomeItem>> {
         return try {
-            ApiResult.Success(api.fetchHomeItems())
+            val apiResult = api.fetchHomeItems()
+            DomainResult.Success(apiResult.map { it.toDomain() })
         } catch (e: Exception) {
-            ApiResult.Error(e.stackTraceToString())
+            DomainResult.Error("Failed to fetch items: ${e.message}")
         }
+    }
+
+    private fun ApiHomeItem.toDomain(): HomeItem {
+        return HomeItem(id = this.id, title = this.title)
     }
 }
