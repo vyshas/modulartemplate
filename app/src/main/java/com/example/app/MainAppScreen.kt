@@ -59,8 +59,10 @@ fun MainAppUI(
     var selectedRoute by remember { mutableStateOf(BottomNavItem.Home.route) } // Track selected route
 
     // If homeEntries is empty, use the first entry's route or a default
-    val startDestination =
-        featureEntries.firstOrNull()?.route() ?: BottomNavItem.Home.route // Fallback needed
+    val startDestination = featureEntries
+        .filterIsInstance<HomeEntry>()
+        .firstOrNull()?.route()
+        ?: BottomNavItem.Home.route // Fallback needed
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Fragment container
