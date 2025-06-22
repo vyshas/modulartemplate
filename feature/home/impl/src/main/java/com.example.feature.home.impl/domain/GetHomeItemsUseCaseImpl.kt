@@ -11,7 +11,11 @@ class GetHomeItemsUseCaseImpl @Inject constructor(
 ) : GetHomeItemsUseCase {
 
     override suspend fun getHomeItems(): DomainResult<List<HomeItem>> {
-        return homeRepositoryImpl.getHomeItems()
+        val homeItems = homeRepositoryImpl.getHomeItems()
+        if (homeItems is DomainResult.Success) {
+            homeRepositoryImpl.cacheItems(homeItems.data)
+        }
+        return homeItems
     }
 
 }

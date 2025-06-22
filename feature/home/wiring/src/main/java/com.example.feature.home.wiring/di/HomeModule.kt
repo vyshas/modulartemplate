@@ -1,10 +1,13 @@
 package com.example.feature.home.wiring.di
 
+import com.example.core.navigation.BottomNavEntry
 import com.example.core.navigation.FeatureEntry
 import com.example.feature.home.api.data.HomeRepository
+import com.example.feature.home.api.domain.usecase.GetHomeItemByIdUseCase
 import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
 import com.example.feature.home.impl.data.api.HomeApi
 import com.example.feature.home.impl.data.repository.HomeRepositoryImpl
+import com.example.feature.home.impl.domain.GetHomeItemByIdUseCaseImpl
 import com.example.feature.home.impl.domain.GetHomeItemsUseCaseImpl
 import com.example.feature.home.impl.ui.screen.HomeEntryImpl
 import dagger.Binds
@@ -32,8 +35,18 @@ abstract class HomeModule {
     ): HomeRepository
 
     @Binds
+    @Singleton
+    abstract fun bindGetHomeItemByIdUseCase(
+        impl: GetHomeItemByIdUseCaseImpl
+    ): GetHomeItemByIdUseCase
+
+    @Binds
     @IntoSet
     abstract fun bindHomeEntry(homeEntryImpl: HomeEntryImpl): FeatureEntry
+
+    @Binds
+    @IntoSet
+    abstract fun bindHomeTabEntry(home: HomeEntryImpl): BottomNavEntry
 
     companion object {
         @Provides

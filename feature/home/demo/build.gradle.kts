@@ -19,6 +19,7 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
@@ -56,7 +57,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
 
     // Hilt
-    implementation(libs.hilt.android)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
@@ -69,5 +69,6 @@ dependencies {
     implementation(libs.androidx.material3)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 }

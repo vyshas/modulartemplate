@@ -1,6 +1,5 @@
 package com.example.core.navigation
 
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 
 /**
@@ -9,14 +8,16 @@ import androidx.navigation.NavHostController
  */
 interface FeatureEntry {
     /**
-     * Registers the feature's navigation graph with the provided NavGraphBuilder.
+     * Registers the feature's navigation graph.
      * @param navController The NavHostController to use for navigation
      */
-    fun NavGraphBuilder.register(navController: NavHostController)
+    fun registerGraph(navController: NavHostController)
 
     /**
      * Returns the base route for this feature.
      * This should be unique across all features.
      */
     fun route(): String
+
+    fun getGraphResId(): Int
 } 
