@@ -1,4 +1,4 @@
-package com.example.feature.home.impl.ui.viewmodel
+package com.example.feature.home.impl.ui.homelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

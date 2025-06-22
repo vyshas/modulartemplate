@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.feature.home.impl.ui.homelist.HomeFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/homeDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeDetailFragment"
+        android:name="com.example.feature.home.impl.ui.homedetail.HomeDetailFragment"
+        android:label="Detail">
+        <argument
+            android:name="item_id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+</navigation>

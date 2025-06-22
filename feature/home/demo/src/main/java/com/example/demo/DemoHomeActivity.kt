@@ -1,23 +1,11 @@
 package com.example.demo
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.compose.DialogNavigator
-import androidx.navigation.compose.NavHost
-import androidx.navigation.fragment.FragmentNavigator
+import androidx.fragment.app.commit
+import androidx.navigation.fragment.NavHostFragment
 import com.example.core.navigation.FeatureEntry
+import com.example.demo.databinding.ActivityDemoBinding
 import com.example.feature.home.api.HomeEntry
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,80 +16,23 @@ class DemoHomeActivity : AppCompatActivity() {
     @Inject
     lateinit var featureEntries: Set<@JvmSuppressWildcards FeatureEntry>
 
-    private lateinit var navController: NavHostController
-    private var containerId: Int = 0
+    private lateinit var binding: ActivityDemoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupNavigation()
-        setupContent()
-    }
+        binding = ActivityDemoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    private fun setupNavigation() {
-        containerId = View.generateViewId()
-        navController = createNavController()
-    }
-
-    private fun createNavController(): NavHostController {
-        return NavHostController(this).apply {
-            setupNavigators(this)
-        }
-    }
-
-    private fun setupNavigators(controller: NavHostController) {
-        with(controller.navigatorProvider) {
-            addNavigator(DialogNavigator())
-            addNavigator(ComposeNavigator())
-            addNavigator(createFragmentNavigator())
-        }
-    }
-
-    private fun createFragmentNavigator(): FragmentNavigator {
-        return FragmentNavigator(
-            this@DemoHomeActivity,
-            supportFragmentManager,
-            containerId
-        )
-    }
-
-    private fun createFragmentContainer(context: android.content.Context): FrameLayout {
-        return FrameLayout(context).apply {
-            id = containerId
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-        }
-    }
-
-    private fun setupContent() {
-        setContent {
-            val rememberedNavController = remember { navController }
-            val homeEntry = featureEntries
-                .filterIsInstance<HomeEntry>()
-                .firstOrNull()
-
-            Box(modifier = Modifier.fillMaxSize()) {
-                // Fragment container
-                AndroidView(
-                    factory = { context -> createFragmentContainer(context) },
-                    modifier = Modifier.fillMaxSize()
-                )
-                if (homeEntry != null) {
-                    // Navigation host
-                    NavHost(
-                        navController = rememberedNavController,
-                        startDestination = homeEntry.route()
-                    ) {
-                        homeEntry.run { register(rememberedNavController) }
-                    }
-                } else {
-                    Box(Modifier.fillMaxSize()) {
-                        Text("Home feature not found")
-                    }
-                }
-
+        if (savedInstanceState == null) {
+            val navHostFragment = NavHostFragment.create(getHomeEntry().getGraphResId())
+            supportFragmentManager.commit {
+                replace(binding.fragmentContainer.id, navHostFragment)
             }
         }
+    }
+
+    private fun getHomeEntry(): HomeEntry {
+        return featureEntries.filterIsInstance<HomeEntry>().firstOrNull()
+            ?: error("HomeEntry not found in featureEntries")
     }
 }

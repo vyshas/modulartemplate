@@ -1,67 +1,100 @@
 package com.example.app
 
-import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.activity.compose.setContent
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.compose.DialogNavigator
-import androidx.navigation.fragment.FragmentNavigator
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import com.example.app.databinding.ActivityMainBinding
+import com.example.core.navigation.BottomNavEntry
 import com.example.core.navigation.FeatureEntry
+import com.example.core.navigation.OnBackPressedHandler
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var entries: Set<@JvmSuppressWildcards FeatureEntry>
+    private lateinit var binding: ActivityMainBinding
 
-    private lateinit var navController: NavHostController
-    private var fragmentContainerId: Int = View.NO_ID // Initialize with a sensible default
+    @Inject
+    lateinit var bottomNavEntries: Set<@JvmSuppressWildcards BottomNavEntry>
+
+    @Inject
+    lateinit var featureEntries: Set<@JvmSuppressWildcards FeatureEntry>
+
+    private val tabFragments = mutableMapOf<String, Fragment>()
+    private var currentTab: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupNavigation()
-        setupContent()
-    }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    private fun setupNavigation() {
-        fragmentContainerId = View.generateViewId() // Generate ID for the fragment container
-        navController = NavHostController(this).apply {
-            navigatorProvider.addNavigator(DialogNavigator())
-            navigatorProvider.addNavigator(ComposeNavigator())
-            navigatorProvider.addNavigator(
-                FragmentNavigator(
-                    this@MainActivity,
-                    supportFragmentManager,
-                    fragmentContainerId // Use the generated ID
-                )
-            )
+        setupBottomNavigation()
+        setupBackHandler()
+
+        if (savedInstanceState == null) {
+            val initialTab = bottomNavEntries.minByOrNull { it.bottomNavPosition() }
+            initialTab?.let { switchToTab(it) }
         }
     }
 
-    private fun createFragmentContainer(context: Context): FrameLayout {
-        return FrameLayout(context).apply {
-            id = fragmentContainerId // Use the generated ID consistently
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
+    private fun setupBottomNavigation() {
+        val sortedTabs = bottomNavEntries.sortedBy { it.bottomNavPosition() }
+        binding.bottomNav.menu.clear()
+
+        for (entry in sortedTabs) {
+            binding.bottomNav.menu.add(
+                0,
+                entry.route().hashCode(),
+                entry.bottomNavPosition(),
+                entry.label()
+            ).setIcon(entry.iconRes())
+        }
+
+        binding.bottomNav.setOnItemSelectedListener { menuItem ->
+            val selectedRoute = bottomNavEntries.firstOrNull {
+                it.route().hashCode() == menuItem.itemId
+            }?.route() ?: return@setOnItemSelectedListener false
+
+            if (currentTab != selectedRoute) {
+                val entry = bottomNavEntries.first { it.route() == selectedRoute }
+                switchToTab(entry)
+                true
+            } else {
+                false
+            }
         }
     }
 
-    private fun setupContent() {
-        setContent {
-            MainAppUI(
-                navController = navController,
-                featureEntries = entries,
-                fragmentContainerFactory = this::createFragmentContainer
-            )
+    private fun switchToTab(entry: BottomNavEntry) {
+        val transaction = supportFragmentManager.beginTransaction()
+        val tag = entry.route()
+
+        val newFragment = tabFragments.getOrPut(tag) {
+            NavHostFragment.create(entry.getGraphResId()) // ✅ NavGraph-based fragment
         }
+
+        supportFragmentManager.fragments.forEach {
+            transaction.hide(it)
+        }
+
+        if (!newFragment.isAdded) {
+            transaction.add(R.id.fragment_container, newFragment, tag)
+        }
+
+        transaction.show(newFragment).commitNowAllowingStateLoss()
+        currentTab = tag
+    }
+
+    private fun setupBackHandler() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val current = supportFragmentManager.findFragmentByTag(currentTab)
+                val handled = (current as? OnBackPressedHandler)?.onBackPressed() ?: false
+                if (!handled) finish()
+            }
+        })
     }
 }

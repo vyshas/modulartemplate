@@ -2,7 +2,9 @@
 
 This project demonstrates a modular Android application architecture using Kotlin, focusing on feature isolation and clean architecture principles. It showcases how to build scalable Android applications with proper separation of concerns.
 
-## Architecture
+---
+
+## 🏗️ Architecture Overview
 
 The project follows a modular architecture pattern where each feature is isolated into its own module:
 
@@ -13,190 +15,319 @@ The project follows a modular architecture pattern where each feature is isolate
   - **impl**: Implementation of the home feature
   - **wiring**: Dependency injection setup for the home feature
   - **demo**: Standalone demo of the home feature
-- **feature/order**: Order feature module
-  - **api**: Public API for the order feature
-  - **impl**: Implementation of the order feature
-  - **wiring**: Dependency injection setup for the order feature
+- **feature/order**: Order feature module (similar structure)
 
-### Module Responsibilities
+---
+
+### 📦 Module Responsibilities
 
 #### API Module
 - Contains only interfaces and data models that other features can depend on
-- Defines the public contract for the feature
+- Defines the public contract for the feature (e.g. `HomeNavigator`, `HomeEntry`)
 - No implementation details
-- Example: `HomeEntry` interface that defines how to register a home screen
 
 #### Implementation Module
-- Contains the actual implementation of the feature
 - Implements interfaces defined in the API module
 - Contains all the feature's internal components (UI, ViewModels, Repositories)
-- Should not be directly accessed by other features
+- Never accessed directly by other features
 
 #### Wiring Module
-- Contains dependency injection setup for the feature
-- Provides implementations to the app module
-- Acts as a bridge between the app and implementation
-- Example: `HomeModule` that provides `HomeEntry` implementations
+- Provides dependency injection setup for the feature using Hilt
+- Binds APIs to their implementations
+- Only the app module depends on wiring modules
 
-### Feature Registration and Navigation
+---
 
-#### Hilt Multibindings
-- Uses `@IntoSet` to collect feature entries
-- Each feature provides its implementation through wiring module
-- App module receives a `Set<FeatureEntry>` for registration
-- Example:
-  ```kotlin
-  @Module
-  @InstallIn(SingletonComponent::class)
-  abstract class HomeModule {
-      @Binds
-      @IntoSet
-      abstract fun bindHomeEntry(homeEntryImpl: HomeEntryImpl): HomeEntry
-  }
-  ```
+## 🧩 Modular Architecture Diagram
 
-#### Benefits of Multibindings
-1. **Decentralized Registration**
-   - Each feature registers itself
-   - No central registry needed
-   - Features can be added/removed without modifying app module
+```mermaid
+graph TD
+  App["🟢 app"]
+  Core["🔧 core"]
+  HomeAPI["📦 feature/home/api"]
+  HomeImpl["🧩 feature/home/impl"]
+  HomeWiring["🧰 feature/home/wiring"]
+  HomeDemo["🎯 feature/home/demo"]
+  OrderAPI["📦 feature/order/api"]
+  OrderImpl["🧩 feature/order/impl"]
+  OrderWiring["🧰 feature/order/wiring"]
+  OrderDemo["🎯 feature/order/demo"]
 
-2. **Type Safety**
-   - Compile-time checking of implementations
-   - No runtime errors from missing registrations
-   - Clear contract through interfaces
+  App --> HomeWiring
+  App --> OrderWiring
+  App --> Core
 
-3. **Loose Coupling**
-   - Features don't know about each other
-   - App module only knows about interfaces
-   - Easy to add/remove features
+  HomeWiring --> HomeImpl
+  HomeWiring --> HomeAPI
 
-4. **Independent Navigation**
-   - Each feature controls its own navigation
-   - No central navigation control
-   - Features can be developed independently
+  OrderWiring --> OrderImpl
+  OrderWiring --> OrderAPI
 
-### Feature Dependencies
+  HomeImpl --> HomeAPI
+  OrderImpl --> OrderAPI
 
-When one feature needs to use another feature:
+  HomeDemo --> HomeWiring
+  OrderDemo --> OrderWiring
+````
 
-1. **API-Only Dependencies**
-   - Features should only depend on other features' API modules
-   - Never depend on implementation or wiring modules
-   - Example: If Order feature needs Home feature, it depends on `:feature:home:api`
+---
 
-2. **Implementation Provision**
-   - The app module is responsible for providing implementations
-   - App module depends on all wiring modules
-   - Wiring modules provide implementations to the app
-   - Features get implementations through the app module
+## 🧭 Modular Bottom Navigation Architecture
 
-3. **Dependency Flow**
-   ```
-   Feature A (impl) → Feature A (api) → Feature B (api) → Feature B (impl)
-   App Module → All Wiring Modules → All Implementations
-   ```
+We use a **modular, scalable bottom navigation system** powered by:
 
-4. **Benefits**
-   - Clear dependency boundaries
-   - No circular dependencies
-   - Features remain loosely coupled
-   - Easier to test and maintain
+* `FeatureEntry.getGraphResId()` to register internal navigation graphs per feature
+* `NavHostFragment.create()` to launch each feature's graph dynamically
+* `BottomNavEntry` interface for per-tab routing, icons, and ordering
+* Fragment reuse to preserve back stacks per tab
 
-### Architectural Rules
+### ✅ MainActivity Behavior
 
-1. **No Direct Implementation Access**
-   - Other features should never depend on implementation modules
-   - All dependencies must go through API modules
-   - This ensures loose coupling and better maintainability
+* Dynamically builds bottom nav from injected `Set<BottomNavEntry>`
+* Each tab uses a dedicated `NavHostFragment` with the feature’s navigation graph
+* Active tab is shown, others are hidden to retain state
+* Back press is delegated to tab fragment’s child fragments
 
-2. **Wiring Module Usage**
-   - Only the app module should depend on wiring modules
-   - Wiring modules provide implementations to the app
-   - This centralizes dependency injection setup
+```kotlin
+NavHostFragment.create(entry.getGraphResId())
+```
 
-3. **API Module Design**
-   - Keep APIs minimal and focused
-   - Only expose what's necessary for other features
-   - Use interfaces to hide implementation details
+---
 
-4. **Implementation Isolation**
-   - Implementation modules should only depend on their own API
-   - Internal changes in implementation should not affect other features
-   - This allows for independent evolution of features
+### 🧭 Bottom Navigation Structure
+
+```mermaid
+graph TD
+  MainActivity["MainActivity (Bottom Nav)"]
+  Tab1["🏠 Home Tab (NavHostFragment)"]
+  Tab2["📦 Order Tab (NavHostFragment)"]
+  HomeGraph["home_graph.xml"]
+  OrderGraph["order_graph.xml"]
+  HomeScreens["HomeFragment → HomeDetailFragment"]
+  OrderScreens["OrderFragment → OrderConfirmationFragment"]
+
+  MainActivity --> Tab1
+  MainActivity --> Tab2
+
+  Tab1 --> HomeGraph
+  Tab2 --> OrderGraph
+
+  HomeGraph --> HomeScreens
+  OrderGraph --> OrderScreens
+```
+
+---
+
+## 🔄 Feature-to-Feature Navigation & Internal Screen Routing
+
+### ✅ Internal Navigation (within a feature)
+
+Each feature defines and owns its own **navigation graph**:
+
+```kotlin
+override fun getGraphResId(): Int = R.navigation.home_graph
+```
+
+* Internal navigation uses safe-args or argument-backed destinations:
+
+```kotlin
+findNavController().navigate(R.id.action_home_to_detail, bundleOf("itemId" to id))
+```
+
+* Arguments are accessed in the ViewModel using `SavedStateHandle`:
+
+```kotlin
+val itemId = savedStateHandle.get<Int>("itemId")
+```
+
+✅ Simple, decoupled, and fully feature-owned.
+
+---
+
+### 🔁 Cross-Feature Navigation Flow
+
+```mermaid
+sequenceDiagram
+  participant HomeFeature
+  participant AppModule
+  participant OrderFeature
+
+  HomeFeature->>AppModule: Inject OrderNavigator
+  AppModule->>OrderFeature: Provides OrderNavigatorImpl
+  HomeFeature->>OrderFeature: startActivity(intentFor(OrderDestination.ViewOrder))
+  OrderFeature->>OrderViewModel: Resolve orderId via SavedStateHandle
+  OrderViewModel->>OrderRepository: Fetch order details from cache/session
+```
+
+---
+
+### 🧼 Sealed Navigation Contracts
+
+Features never directly navigate to fragments of other features. Instead:
+
+* Each feature exposes a **Navigator interface** (e.g. `OrderNavigator`)
+* Destinations are defined as sealed classes:
+
+```kotlin
+sealed interface OrderDestination {
+    data class ViewOrder(val orderId: Int) : OrderDestination
+}
+```
+
+* Consumers use:
+
+```kotlin
+val intent = orderNavigator.intentFor(OrderDestination.ViewOrder(42))
+startActivity(intent)
+```
+
+* Arguments are retrieved inside the target screen using `SavedStateHandle`
+* Data is expected to be available via repository/session layers
+
+✅ No `Intent.putExtra(...)` or fragile Bundles
+✅ ViewModels remain stateless and testable
+
+---
+
+## 🧩 Feature Registration via Hilt Multibindings
+
+Each feature registers itself with the app via Hilt:
+
+```kotlin
+@Binds
+@IntoSet
+abstract fun bindHomeEntry(homeEntryImpl: HomeEntryImpl): FeatureEntry
+
+@Binds
+@IntoSet
+abstract fun bindHomeTabEntry(homeEntryImpl: HomeEntryImpl): BottomNavEntry
+
+@Binds
+@Singleton
+abstract fun bindHomeEntryAsNavigator(homeEntryImpl: HomeEntryImpl): HomeEntry
+```
 
 ### Benefits
 
-1. **Feature Isolation**
-   - Features can be developed and tested independently
-   - Changes in one feature don't affect others
-   - Teams can work on different features in parallel
+1. **Decentralized Registration**
+   Features register themselves independently.
 
-2. **Clear Dependencies**
-   - API modules make dependencies explicit
-   - Wiring modules centralize DI setup
-   - Easier to understand and maintain
+2. **Type Safety**
+   Interfaces are enforced at compile time.
 
-3. **Better Testing**
-   - Features can be tested in isolation
-   - Demo modules allow for standalone testing
-   - Easier to mock dependencies
+3. **Loose Coupling**
+   Features do not depend on each other directly.
 
-4. **Scalability**
-   - New features can be added without affecting existing ones
-   - Teams can work independently
-   - Easier to maintain as the app grows
+4. **Scalable**
+   New features can be plugged in without modifying existing ones.
 
-## Features
+---
 
-- **Modular Architecture**: Each feature is isolated in its own module
-- **Clean Architecture**: Clear separation of concerns with API, implementation, and wiring modules
-- **MVVM**: Uses the Model-View-ViewModel pattern
-- **Dependency Injection**: Hilt for dependency injection
-- **KSP**: Uses Kotlin Symbol Processing for faster builds
-- **Demo Support**: Each feature can be run independently for testing
+## 📁 Feature Dependency Rules
 
-## Technical Stack
+* Features depend **only on API modules** of other features
+* Never depend on another feature's `impl` or `wiring`
+* The `app` module depends on all wiring modules and wires them together
 
-- Kotlin
-- Gradle with Kotlin DSL
-- Hilt for dependency injection
-- KSP for annotation processing
-- AndroidX libraries
-- Material Design components
+```
+Feature A (impl) → Feature A (api) → Feature B (api) → Feature B (impl)
+App Module → All Wiring Modules → All Implementations
+```
 
-## Setup
+---
 
-1. Clone the repository
-2. Open the project in Android Studio
-3. Sync Gradle files
-4. Run the app or any feature demo
+## 🧼 Architectural Rules
 
-## Building
+1. **No Direct Implementation Access**
+   Features are black boxes outside their API.
+
+2. **Wiring Module Usage**
+   All DI bindings happen in wiring; app aggregates them.
+
+3. **SavedStateHandle for Args**
+   Use `SavedStateHandle` for ViewModel argument access, no `Intent.putExtra()`.
+
+4. **Sealed Contracts for Navigation**
+   All navigation across features goes through sealed interfaces.
+
+---
+
+## 🎨 Theming
+
+* A global `Theme.Pluggo` is applied across all activities.
+* Based on `Material3.DayNight.NoActionBar`.
+* Fully compatible with Compose.
+* Optimized for in-car readability and dark mode.
+
+---
+
+## 🧪 Feature Demos
+
+Each feature includes a standalone demo app (e.g., `DemoHomeActivity`) for independent testing and development.
+
+To run:
 
 ```bash
-# Build the main app
-./gradlew :app:installDebug
-
-# Build the home feature demo
 ./gradlew :feature:home:demo:installDebug
 ```
 
-## Recent Changes
+---
 
-- Migrated from kapt to KSP for better build performance
-- Moved DI modules to wiring modules for better organization
-- Added proper feature isolation with API modules
-- Implemented demo support for features
+## 🧰 Technical Stack
 
-## Contributing
+* Kotlin
+* Gradle (Kotlin DSL)
+* Jetpack Compose (inside Fragments only)
+* Hilt for DI
+* Kotlin Coroutines + Flow
+* Navigation Component
+* KSP for annotation processing
+* Material Design 3
+
+---
+
+## 🛠️ Setup
+
+```bash
+# Clone the repo
+git clone https://github.com/yourorg/android-modular-architecture.git
+
+# Open in Android Studio
+# Then sync Gradle and run
+
+# Run main app
+./gradlew :app:installDebug
+
+# Run home feature demo
+./gradlew :feature:home:demo:installDebug
+```
+
+---
+
+## 🆕 Recent Changes
+
+* ✅ Migrated from kapt to KSP for better build performance
+* ✅ Moved DI setup to dedicated wiring modules
+* ✅ Separated API modules for clean feature boundaries
+* ✅ Implemented per-tab bottom navigation with `NavHostFragment`s
+* ✅ Enabled `findNavController()` support for Compose-based Fragments
+* ✅ Introduced sealed contracts and SavedStateHandle for screen arguments
+* ✅ Created Navigator interfaces for cross-feature communication
+* ✅ Global dark theme applied via `Theme.Pluggo`
+* ✅ Back press handling delegated to tab fragments
+
+---
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
+2. Create your feature branch
 3. Commit your changes
 4. Push to the branch
-5. Create a Pull Request
+5. Open a Pull Request
 
-## License
+---
+
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
