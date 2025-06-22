@@ -1,4 +1,4 @@
-package com.example.feature.home.impl.ui.screen
+package com.example.feature.home.impl.ui.homelist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.core.navigation.OnBackPressedHandler
 import com.example.feature.home.api.domain.model.HomeItem
-import com.example.feature.home.impl.ui.viewmodel.HomeViewModel
+import com.example.feature.home.impl.R
+import com.example.feature.home.impl.ui.homedetail.HomeDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +29,15 @@ class HomeFragment : Fragment(), OnBackPressedHandler {
         return ComposeView(requireContext()).apply {
             setContent {
                 HomeContent(viewModel) { homeItem: HomeItem ->
-
+                    navController.navigate(
+                        R.id.action_home_to_detail,
+                        Bundle().apply {
+                            putInt(
+                                HomeDetailViewModel.KEY_ITEM_ID,
+                                homeItem.id
+                            )
+                        }
+                    )
                 }
             }
         }

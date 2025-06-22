@@ -18,7 +18,13 @@ class HomeDetailViewModel @Inject constructor(
     private val getHomeItemByIdUseCase: GetHomeItemByIdUseCase
 ) : ViewModel() {
 
-    private val itemId = savedStateHandle.get<Int>("itemId") ?: -1
+    companion object {
+        const val KEY_ITEM_ID = "item_id"
+    }
+
+    private val itemId: Int = checkNotNull(savedStateHandle[KEY_ITEM_ID]) {
+        "Missing $KEY_ITEM_ID in SavedStateHandle"
+    }
 
     private val _uiState = MutableStateFlow<HomeDetailUiState>(HomeDetailUiState.Loading)
     val uiState: StateFlow<HomeDetailUiState> = _uiState

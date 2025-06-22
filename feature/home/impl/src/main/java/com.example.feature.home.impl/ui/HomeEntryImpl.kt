@@ -1,10 +1,11 @@
-package com.example.feature.home.impl.ui.screen
+package com.example.feature.home.impl.ui
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavHostController
 import com.example.core.navigation.BottomNavEntry
 import com.example.feature.home.api.HomeEntry
 import com.example.feature.home.impl.R
+import com.example.feature.home.impl.ui.homelist.HomeFragment
 import javax.inject.Inject
 
 class HomeEntryImpl @Inject constructor() : HomeEntry, BottomNavEntry {

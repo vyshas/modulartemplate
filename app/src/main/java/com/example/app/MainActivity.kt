@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.example.app.databinding.ActivityMainBinding
 import com.example.core.navigation.BottomNavEntry
 import com.example.core.navigation.FeatureEntry
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         val tag = entry.route()
 
         val newFragment = tabFragments.getOrPut(tag) {
-            entry.createRootFragment()
+            NavHostFragment.create(entry.getGraphResId()) // ✅ NavGraph-based fragment
         }
 
         supportFragmentManager.fragments.forEach {
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         if (!newFragment.isAdded) {
             transaction.add(R.id.fragment_container, newFragment, tag)
         }
+
         transaction.show(newFragment).commitNowAllowingStateLoss()
         currentTab = tag
     }
@@ -91,11 +93,8 @@ class MainActivity : AppCompatActivity() {
             override fun handleOnBackPressed() {
                 val current = supportFragmentManager.findFragmentByTag(currentTab)
                 val handled = (current as? OnBackPressedHandler)?.onBackPressed() ?: false
-                if (!handled) {
-                    finish()
-                }
+                if (!handled) finish()
             }
         })
     }
 }
-

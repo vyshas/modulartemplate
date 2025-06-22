@@ -7,7 +7,7 @@ import com.example.feature.order.api.domain.usecase.GetOrderDetailsUseCase
 import com.example.feature.order.impl.data.api.OrderApi
 import com.example.feature.order.impl.data.repository.OrderRepositoryImpl
 import com.example.feature.order.impl.domain.GetOrderDetailsUseCaseImpl
-import com.example.feature.order.impl.ui.screen.OrderEntryImpl
+import com.example.feature.order.impl.ui.OrderEntryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

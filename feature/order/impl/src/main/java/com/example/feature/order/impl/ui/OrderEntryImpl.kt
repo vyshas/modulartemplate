@@ -1,10 +1,11 @@
-package com.example.feature.order.impl.ui.screen
+package com.example.feature.order.impl.ui
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavHostController
 import com.example.core.navigation.BottomNavEntry
 import com.example.feature.order.api.domain.OrderEntry
 import com.example.feature.order.impl.R
+import com.example.feature.order.impl.ui.orderlist.OrderFragment
 import javax.inject.Inject
 
 class OrderEntryImpl @Inject constructor() : OrderEntry, BottomNavEntry {

@@ -1,4 +1,4 @@
-package com.example.feature.order.impl.ui.screen
+package com.example.feature.order.impl.ui.orderlist
 
 import android.os.Bundle
 import android.view.Gravity
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.feature.order.impl.ui.viewmodel.OrderViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.example.feature.home.impl.ui.screen
+package com.example.feature.home.impl.ui.homelist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -23,8 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.feature.home.api.domain.model.HomeItem
-import com.example.feature.home.impl.ui.viewmodel.HomeUiState
-import com.example.feature.home.impl.ui.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(

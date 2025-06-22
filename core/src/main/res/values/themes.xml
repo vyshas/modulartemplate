@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Pluggo" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Transparent background for Compose -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/black
+        </item> <!-- car-friendly dark theme -->
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.feature.home.impl">
+
+    <application>
+        <activity
+            android:name=".ui.HomeFeatureActivity"
+            android:exported="true"
+            android:label="Home Feature"
+            android:theme="@style/Theme.Pluggo" />
+    </application>
+
+</manifest>
