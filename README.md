@@ -120,6 +120,20 @@ graph TD
 
 ## 🔄 Feature-to-Feature Navigation & Internal Screen Routing
 
+The project supports type-safe cross-feature navigation using Activity-based sealed contracts, while internal navigation within a feature still uses Fragment-based navigation.
+
+Internal Feature Navigation:
+Fragments navigate via NavController
+
+Safe args + navigation graphs are used per feature
+
+Cross-Feature Navigation:
+Each feature exposes a sealed Navigator contract
+
+Intent is built from the consumer using navigator.intentFor(...)
+
+Data is passed via IDs only (e.g. homeId: Int) and resolved inside ViewModels using SavedStateHandle
+
 ### ✅ Internal Navigation (within a feature)
 
 Each feature defines and owns its own **navigation graph**:
