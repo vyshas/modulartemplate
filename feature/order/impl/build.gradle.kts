@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.androidx.navigation.safe.args)
 }
 
 android {
@@ -33,6 +34,7 @@ android {
 
 dependencies {
     api(project(":feature:order:api"))
+    implementation(project(":feature:home:api"))
     implementation(project(":core"))
 
     api(libs.kotlinx.coroutines.core)

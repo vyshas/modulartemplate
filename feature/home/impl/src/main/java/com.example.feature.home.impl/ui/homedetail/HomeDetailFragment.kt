@@ -24,8 +24,22 @@ class HomeDetailFragment : Fragment() {
             setContent {
                 HomeDetailScreen(
                     viewModel = viewModel,
-                    onBackClick = { findNavController().popBackStack() })
+                    onBackClick = {
+                        val navController = try {
+                            findNavController()
+                        } catch (e: IllegalStateException) {
+                            null
+                        }
+
+                        if (navController?.previousBackStackEntry != null) {
+                            navController.popBackStack()
+                        } else {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
+                    }
+                )
             }
         }
     }
+
 }

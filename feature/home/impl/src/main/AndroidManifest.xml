@@ -7,6 +7,10 @@
             android:exported="true"
             android:label="Home Feature"
             android:theme="@style/Theme.Pluggo" />
+        <activity
+            android:name=".ui.homedetail.HomeDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Pluggo" />
     </application>
 
 </manifest>
