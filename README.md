@@ -318,6 +318,41 @@ git clone https://github.com/yourorg/android-modular-architecture.git
 
 ---
 
+## 📦 Dependency Management
+
+This project centralizes dependency management using Gradle's `libs.versions.toml` file. This approach offers several benefits:
+
+*   **Consistency**: All modules use the same version of a library, preventing version conflicts.
+*   **Easier Updates**: Update dependencies in one place, simplifying maintenance.
+*   **Readability**: Clearly defined aliases for dependencies improve build script readability.
+
+You can find all defined versions, libraries, and plugins in `gradle/libs.versions.toml`.
+
+---
+
+## 🏗️ Build Logic
+
+This project utilizes a `build-logic` module to encapsulate custom Gradle plugins and build configurations. This approach offers several advantages:
+
+*   **Reusability**: Share common build logic across multiple modules, reducing duplication.
+*   **Maintainability**: Centralize complex build configurations, making them easier to manage and update.
+*   **Consistency**: Ensure consistent application of build rules and dependencies throughout the project.
+
+Custom plugins defined in `build-logic` are applied to relevant modules to enforce project standards and streamline the build process.
+
+### Custom Gradle Plugins: `api`, `impl`, `demo`, and `wiring`
+
+To enforce the modular architecture and dependency rules, this project utilizes custom Gradle plugins for each module type:
+
+*   **`api` Plugin**: Applied to API modules (e.g., `feature/home/api`). This plugin ensures that API modules only expose interfaces and data models, preventing the accidental leakage of implementation details.
+*   **`impl` Plugin**: Applied to implementation modules (e.g., `feature/home/impl`). This plugin manages dependencies for implementation modules, ensuring they correctly depend on their corresponding API modules and other necessary libraries, while preventing direct dependencies on other feature's `impl` modules.
+*   **`demo` Plugin**: Applied to demo modules (e.g., `feature/home/demo`). This plugin configures demo applications, allowing them to run independently and showcase specific features.
+*   **`wiring` Plugin**: Applied to wiring modules (e.g., `feature/home/wiring`). This plugin handles the dependency injection setup for features, ensuring proper binding of APIs to their implementations.
+
+These plugins help maintain strict separation of concerns and enforce the architectural rules outlined in this README.
+
+---
+
 ## 🆕 Recent Changes
 
 * ✅ Migrated from kapt to KSP for better build performance
