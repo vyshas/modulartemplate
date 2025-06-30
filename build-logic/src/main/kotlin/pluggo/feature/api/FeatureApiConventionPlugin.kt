@@ -8,7 +8,6 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.project
 
 class FeatureApiConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
