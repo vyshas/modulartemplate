@@ -26,7 +26,7 @@ class OrderViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = OrderUiState()
+        initialValue = OrderUiState(isLoading = true)
     )
     private val _uiEffect = MutableSharedFlow<OrderUiEffect>()
     val uiEffect: SharedFlow<OrderUiEffect> = _uiEffect.asSharedFlow()
