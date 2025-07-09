@@ -5,6 +5,8 @@ import com.example.feature.home.api.data.HomeRepository
 import com.example.feature.home.api.domain.model.HomeItem
 import com.example.feature.home.impl.data.api.HomeApi
 import com.example.feature.home.impl.data.model.ApiHomeItem
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
@@ -12,12 +14,14 @@ class HomeRepositoryImpl @Inject constructor(
 ) : HomeRepository {
 
     // Simple in-memory cache
-    private val cache = mutableMapOf<Int, HomeItem>()
+    private val cache = java.util.concurrent.ConcurrentHashMap<Int, HomeItem>()
+    private val cacheMutex = Mutex()
 
     override suspend fun getHomeItems(): DomainResult<List<HomeItem>> {
         return try {
             val apiResult = api.fetchHomeItems()
-            DomainResult.Success(apiResult.map { it.toDomain() })
+            val domainItems = apiResult.map { it.toDomain() }
+            DomainResult.Success(domainItems)
         } catch (e: Exception) {
             DomainResult.Error("Failed to fetch items: ${e.message}")
         }
@@ -27,8 +31,10 @@ class HomeRepositoryImpl @Inject constructor(
         return cache[id]
     }
 
-    override fun cacheItems(items: List<HomeItem>) {
-        items.forEach { cache[it.id] = it }
+    override suspend fun cacheItems(items: List<HomeItem>) {
+        cacheMutex.withLock {
+            items.forEach { cache[it.id] = it }
+        }
     }
 
     private fun ApiHomeItem.toDomain(): HomeItem {

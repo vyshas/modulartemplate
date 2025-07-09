@@ -38,4 +38,9 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":feature:home:api"))
     implementation(project(":feature:home:wiring"))
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
