@@ -7,8 +7,16 @@ import com.example.core.domain.DomainResult
 import com.example.feature.home.api.domain.model.HomeItem
 import com.example.feature.home.api.domain.usecase.GetHomeItemByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,17 +34,45 @@ class HomeDetailViewModel @Inject constructor(
         "Missing $KEY_ITEM_ID in SavedStateHandle"
     }
 
-    private val _uiState = MutableStateFlow<HomeDetailUiState>(HomeDetailUiState.Loading)
-    val uiState: StateFlow<HomeDetailUiState> = _uiState
+    private val _uiEffect = MutableSharedFlow<HomeDetailUiEffect>()
+    val uiEffect: SharedFlow<HomeDetailUiEffect> = _uiEffect.asSharedFlow()
 
-    init {
-        viewModelScope.launch {
-            when (val result = getHomeItemByIdUseCase(itemId)) {
-                is DomainResult.Success -> _uiState.value = HomeDetailUiState.Success(result.data)
-                is DomainResult.Error -> _uiState.value = HomeDetailUiState.Error(result.message)
-                DomainResult.NetworkError -> _uiState.value =
-                    HomeDetailUiState.Error("Network error")
+    private val retryTrigger = MutableSharedFlow<Unit>()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val uiState: StateFlow<HomeDetailUiState> = retryTrigger
+        .onStart { emit(Unit) } // Auto-trigger on start
+        .flatMapLatest {
+            flow {
+                emit(HomeDetailUiState.Loading)
+
+                when (val result = getHomeItemByIdUseCase(itemId)) {
+                    is DomainResult.Success -> {
+                        emit(HomeDetailUiState.Success(result.data))
+                    }
+
+                    is DomainResult.Error -> {
+                        emit(HomeDetailUiState.Error(result.message))
+                        _uiEffect.emit(HomeDetailUiEffect.ShowToast(result.message))
+                    }
+
+                    DomainResult.NetworkError -> {
+                        val errorMessage = "Network error"
+                        emit(HomeDetailUiState.Error(errorMessage))
+                        _uiEffect.emit(HomeDetailUiEffect.ShowToast(errorMessage))
+                    }
+                }
             }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = HomeDetailUiState.Loading
+        )
+
+    fun retry() {
+        viewModelScope.launch {
+            retryTrigger.emit(Unit)
         }
     }
 }

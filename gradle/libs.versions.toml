@@ -22,6 +22,7 @@ composeBom = "2024.09.00"
 mockito = "5.12.0"
 archTesting = "2.2.0"
 turbine = "1.1.0"
+mockk = "1.13.10"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -71,6 +72,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archTesting" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 

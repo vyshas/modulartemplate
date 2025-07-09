@@ -45,4 +45,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build app and home demo
-        run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug --no-daemon
+        run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug
+
+      - name: Run tests for home and order features
+        run: ./gradlew :feature:home:impl:testDebugUnitTest :feature:order:impl:testDebugUnitTest

@@ -91,6 +91,12 @@ class FeatureImplConventionPlugin : Plugin<Project> {
 
                 add("implementation", libs.findLibrary("hilt.android").get())
                 add("ksp", libs.findLibrary("hilt.compiler").get())
+
+                add("testImplementation", libs.findLibrary("junit").get())
+                add("testImplementation", libs.findLibrary("mockk").get())
+                add("testImplementation", libs.findLibrary("mockk.android").get())
+                add("testImplementation", libs.findLibrary("kotlinx.coroutines.test").get())
+                add("testImplementation", libs.findLibrary("turbine").get())
             }
         }
     }

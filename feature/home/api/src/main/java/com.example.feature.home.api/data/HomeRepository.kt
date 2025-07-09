@@ -6,5 +6,5 @@ import com.example.feature.home.api.domain.model.HomeItem
 interface HomeRepository {
     suspend fun getHomeItems(): DomainResult<List<HomeItem>>
     suspend fun getCachedItemById(id: Int): HomeItem?
-    fun cacheItems(items: List<HomeItem>)
+    suspend fun cacheItems(items: List<HomeItem>)
 }
