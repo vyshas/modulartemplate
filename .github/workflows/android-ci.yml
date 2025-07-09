@@ -46,3 +46,6 @@ jobs:
 
       - name: Build app and home demo
         run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug --no-daemon
+
+      - name: Run tests for home and order features
+        run: ./gradlew :feature:home:impl:testDebugUnitTest :feature:order:impl:testDebugUnitTest --no-daemon
