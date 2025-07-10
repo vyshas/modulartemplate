@@ -9,6 +9,7 @@ import javax.inject.Inject
 class GetProductsUseCaseImpl @Inject constructor(
     private val repository: ProductRepository
 ) : GetProductsUseCase {
+
     override suspend fun getProducts(): DomainResult<List<Product>> {
         return repository.getProducts()
     }

@@ -1,18 +1,16 @@
 package com.example.feature.product.impl.ui.productlist
 
+import com.example.core.coroutines.CoroutineDispatchers
 import com.example.feature.product.api.domain.model.Product
 import com.example.feature.product.api.domain.model.Rating
 import com.example.feature.product.api.domain.usecase.GetProductsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import kotlinx.coroutines.test.resetMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.assertEquals
@@ -22,25 +20,31 @@ import app.cash.turbine.test
 /**
  * Comprehensive tests for ProductViewModel
  *
- * Tests all UI intents, state transitions, and effect emissions.
+ * Tests all UI intents, state transitions, and effect emissions using injectable dispatchers.
  */
 @ExperimentalCoroutinesApi
 class ProductViewModelTest {
 
-    private val testDispatcher = StandardTestDispatcher()
     private lateinit var getProductsUseCase: GetProductsUseCase
+    private lateinit var testDispatchers: CoroutineDispatchers
     private lateinit var viewModel: ProductViewModel
+
+    // Test implementation of CoroutineDispatchers
+    private class TestCoroutineDispatchers(
+        private val testDispatcher: CoroutineDispatcher
+    ) : CoroutineDispatchers {
+        override val main: CoroutineDispatcher = testDispatcher
+        override val io: CoroutineDispatcher = testDispatcher
+        override val default: CoroutineDispatcher = testDispatcher
+        override val unconfined: CoroutineDispatcher = testDispatcher
+    }
 
     @Before
     fun setup() {
-        Dispatchers.setMain(testDispatcher)
         getProductsUseCase = mockk()
-        viewModel = ProductViewModel(getProductsUseCase)
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
+        // Use UnconfinedTestDispatcher for immediate execution in tests
+        testDispatchers = TestCoroutineDispatchers(UnconfinedTestDispatcher())
+        viewModel = ProductViewModel(getProductsUseCase, testDispatchers)
     }
 
     @Test

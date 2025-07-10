@@ -47,13 +47,17 @@ fun ProductScreen(
                 is ProductUiEffect.ShowToast -> {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
+                is ProductUiEffect.NavigateToProductDetail -> {
+                    // TODO: Implement actual navigation using ProductNavigator
+                    Toast.makeText(context, "Navigate to product detail for ID: ${it.productId}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     ProductScreenContent(
         uiState = uiState,
-        onItemClick = { /* TODO: Handle item click */ },
+        onItemClick = { product -> viewModel.onIntent(ProductUiIntent.ProductClicked(product.id)) },
         onRefresh = { viewModel.onIntent(ProductUiIntent.FetchProducts) }
     )
 }
