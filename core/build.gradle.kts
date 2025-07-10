@@ -1,8 +1,8 @@
 plugins {
     id("com.android.library")
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -67,4 +67,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Network
+    api(libs.retrofit)
+    api(libs.retrofit.converter.moshi)
+    api(libs.moshi)
+    api(libs.moshi.kotlin)
+    ksp(libs.moshi.codegen)
+    api(libs.okhttp)
+    api(libs.okhttp.logging.interceptor)
+    implementation(libs.kotlin.reflect)
 }
