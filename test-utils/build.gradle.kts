@@ -1,14 +1,14 @@
 plugins {
-    id("android.library")
-    id("kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.example.testutils"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 24
     }
 
     compileOptions {
@@ -17,7 +17,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = "17"
     }
 }
 
@@ -25,5 +25,4 @@ dependencies {
     api(project(":core"))
     api(libs.kotlinx.coroutines.test)
     api(libs.junit)
-    api(libs.kotlin.test)
 }
