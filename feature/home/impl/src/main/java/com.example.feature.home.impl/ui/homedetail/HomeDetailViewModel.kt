@@ -3,6 +3,7 @@ package com.example.feature.home.impl.ui.homedetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.coroutines.DispatcherProvider
 import com.example.core.domain.DomainResult
 import com.example.feature.home.api.domain.model.HomeItem
 import com.example.feature.home.api.domain.usecase.GetHomeItemByIdUseCase
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -23,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getHomeItemByIdUseCase: GetHomeItemByIdUseCase
+    private val getHomeItemByIdUseCase: GetHomeItemByIdUseCase,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     companion object {
@@ -62,7 +65,7 @@ class HomeDetailViewModel @Inject constructor(
                         _uiEffect.emit(HomeDetailUiEffect.ShowToast(errorMessage))
                     }
                 }
-            }
+            }.flowOn(dispatcherProvider.io())
         }
         .stateIn(
             scope = viewModelScope,
