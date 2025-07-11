@@ -33,4 +33,5 @@ dependencies {
     implementation(project(":feature:order:api"))
     implementation(project(":feature:home:api"))
     implementation(project(":core"))
+    testImplementation(project(":test-utils"))
 }
