@@ -152,12 +152,11 @@ class ProductViewModelTest {
         val productId = 123
         coEvery { getProductsUseCase.getProducts() } returns DomainResult.Success(emptyList())
 
-        // When
-        productViewModel.onIntent(ProductUiIntent.ProductClicked(productId))
-        advanceUntilIdle()
-
-        // Then
+        // When & Then
         productViewModel.uiEffect.test {
+            productViewModel.onIntent(ProductUiIntent.ProductClicked(productId))
+            advanceUntilIdle()
+
             val effect = awaitItem()
             assertTrue(effect is ProductUiEffect.NavigateToProductDetail)
             assertEquals(productId, (effect as ProductUiEffect.NavigateToProductDetail).productId)
