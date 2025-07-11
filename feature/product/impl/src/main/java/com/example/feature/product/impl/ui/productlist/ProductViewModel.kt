@@ -2,13 +2,11 @@ package com.example.feature.product.impl.ui.productlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.coroutines.CoroutineDispatchers
+import com.example.core.coroutines.DispatcherProvider
 import com.example.core.domain.DomainResult
 import com.example.feature.product.api.domain.usecase.GetProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,16 +23,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel @Inject constructor(
     private val getProductsUseCase: GetProductsUseCase,
-    private val dispatchers: CoroutineDispatchers
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _uiEffect = MutableSharedFlow<ProductUiEffect>()
     val uiEffect: SharedFlow<ProductUiEffect> = _uiEffect.asSharedFlow()
 
     private val refreshTrigger = MutableSharedFlow<Unit>()
-
-    // Create a scope with the injected dispatcher for better control
-    private val vmScope = CoroutineScope(SupervisorJob() + dispatchers.main)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<ProductUiState> = refreshTrigger
@@ -47,9 +42,9 @@ class ProductViewModel @Inject constructor(
                     is DomainResult.Error -> emit(ProductUiState.Error(result.message))
                     DomainResult.NetworkError -> emit(ProductUiState.Error("Network error"))
                 }
-            }.flowOn(dispatchers.io) // Use injected IO dispatcher for data operations
+            }.flowOn(dispatcherProvider.io())
         }.stateIn(
-            scope = vmScope,
+            scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = ProductUiState.Loading
         )
@@ -62,13 +57,13 @@ class ProductViewModel @Inject constructor(
     }
 
     private fun onProductClicked(productId: Int) {
-        vmScope.launch(dispatchers.main) {
+        viewModelScope.launch {
             _uiEffect.emit(ProductUiEffect.NavigateToProductDetail(productId))
         }
     }
 
     private fun refresh() {
-        vmScope.launch(dispatchers.main) {
+        viewModelScope.launch {
             refreshTrigger.emit(Unit)
         }
     }

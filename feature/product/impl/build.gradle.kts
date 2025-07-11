@@ -57,4 +57,6 @@ android {
 dependencies {
     implementation(project(":feature:product:api"))
     implementation(project(":core"))
+
+    testImplementation(project(":test-utils"))
 }
