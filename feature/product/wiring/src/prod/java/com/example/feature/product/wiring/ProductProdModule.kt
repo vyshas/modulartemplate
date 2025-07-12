@@ -17,7 +17,11 @@ object ProductProdModule {
 
     @Provides
     @Singleton
-    fun provideProductApi(retrofit: Retrofit): ProductApi = retrofit.create(ProductApi::class.java)
+    fun provideProductApi(
+        retrofit: Retrofit
+    ): ProductApi {
+        return retrofit.create(ProductApi::class.java)
+    }
 
     @Provides
     @Singleton

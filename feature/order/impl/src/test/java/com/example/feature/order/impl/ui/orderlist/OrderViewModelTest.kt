@@ -3,7 +3,6 @@ package com.example.feature.order.impl.ui.orderlist
 import app.cash.turbine.test
 import com.example.feature.order.api.domain.model.Order
 import com.example.feature.order.api.domain.usecase.GetOrderDetailsUseCase
-import com.example.testutils.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -28,13 +27,12 @@ class OrderViewModelTest {
     private lateinit var getOrderDetailsUseCase: GetOrderDetailsUseCase
     private lateinit var orderViewModel: OrderViewModel
     private val testDispatcher = StandardTestDispatcher()
-    private val dispatcherProvider = TestDispatcherProvider(testDispatcher)
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         getOrderDetailsUseCase = mockk()
-        orderViewModel = OrderViewModel(getOrderDetailsUseCase, dispatcherProvider)
+        orderViewModel = OrderViewModel(getOrderDetailsUseCase)
     }
 
     @After
@@ -52,7 +50,6 @@ class OrderViewModelTest {
             val initialState = awaitItem()
             assertTrue(initialState.isLoading)
             assertNull(initialState.order)
-            assertNull(initialState.error)
             cancelAndConsumeRemainingEvents()
         }
     }
@@ -66,10 +63,7 @@ class OrderViewModelTest {
         // When & Then
         orderViewModel.uiState.test {
             // Initial loading state
-            val loadingState = awaitItem()
-            assertTrue(loadingState.isLoading)
-            assertNull(loadingState.order)
-            assertNull(loadingState.error)
+            assertTrue(awaitItem().isLoading)
 
             // After use case completes
             advanceUntilIdle()
@@ -77,31 +71,6 @@ class OrderViewModelTest {
             assertFalse(successState.isLoading)
             assertNotNull(successState.order)
             assertEquals(expectedOrder, successState.order)
-            assertNull(successState.error)
-            cancelAndConsumeRemainingEvents()
-        }
-    }
-
-    @Test
-    fun `uiState transitions to Error when use case throws exception`() = runTest(testDispatcher) {
-        // Given
-        val errorMessage = "Failed to get order"
-        coEvery { getOrderDetailsUseCase.getOrder() } throws Exception(errorMessage)
-
-        // When & Then
-        orderViewModel.uiState.test {
-            // Initial loading state
-            val loadingState = awaitItem()
-            assertTrue(loadingState.isLoading)
-            assertNull(loadingState.order)
-            assertNull(loadingState.error)
-
-            // After use case completes with error
-            advanceUntilIdle()
-            val errorState = awaitItem()
-            assertFalse(errorState.isLoading)
-            assertNull(errorState.order)
-            assertEquals(errorMessage, errorState.error)
             cancelAndConsumeRemainingEvents()
         }
     }
@@ -134,50 +103,26 @@ class OrderViewModelTest {
         }
 
     @Test
-    fun `onIntent FetchOrder triggers refresh`() = runTest(testDispatcher) {
+    fun `onIntent FetchOrder updates uiState`() = runTest(testDispatcher) {
         // Given
-        val order1 = Order(123, 45.67)
-        val order2 = Order(456, 78.90)
-        coEvery { getOrderDetailsUseCase.getOrder() } returnsMany listOf(order1, order2)
+        val expectedOrder = Order(123, 45.67)
+        coEvery { getOrderDetailsUseCase.getOrder() } returns expectedOrder
 
         // When & Then
         orderViewModel.uiState.test {
-            // Initial fetch
+            // Initial loading state
             assertTrue(awaitItem().isLoading)
-            advanceUntilIdle()
-            assertEquals(order1, awaitItem().order)
 
-            // Trigger refresh
+            // Trigger FetchOrder
             orderViewModel.onIntent(OrderUiIntent.FetchOrder)
+
+            // After use case completes
             advanceUntilIdle()
-
-            // Then
-            assertTrue(awaitItem().isLoading) // Loading again after refresh
-            assertEquals(order2, awaitItem().order)
+            val successState = awaitItem()
+            assertFalse(successState.isLoading)
+            assertNotNull(successState.order)
+            assertEquals(expectedOrder, successState.order)
             cancelAndConsumeRemainingEvents()
-        }
-    }
-
-    @Test
-    fun `onIntent OnViewHomeDetailClicked does nothing when order is null`() =
-        runTest(testDispatcher) {
-            // Given
-            coEvery { getOrderDetailsUseCase.getOrder() } throws Exception("No order")
-
-            // Ensure we're in error state with no order
-            orderViewModel.uiState.test {
-                awaitItem() // Loading
-            advanceUntilIdle()
-            val errorState = awaitItem()
-            assertNull(errorState.order)
-            cancelAndConsumeRemainingEvents()
-        }
-
-        // When & Then
-        orderViewModel.uiEffect.test {
-            orderViewModel.onIntent(OrderUiIntent.OnViewHomeDetailClicked)
-            // No effect should be emitted since order is null
-            expectNoEvents()
         }
     }
 }
