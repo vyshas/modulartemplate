@@ -97,6 +97,15 @@ class FeatureImplConventionPlugin : Plugin<Project> {
                 add("testImplementation", libs.findLibrary("mockk.android").get())
                 add("testImplementation", libs.findLibrary("kotlinx.coroutines.test").get())
                 add("testImplementation", libs.findLibrary("turbine").get())
+
+                // Network
+                add("implementation", libs.findLibrary("retrofit").get())
+                add("implementation", libs.findLibrary("retrofit.converter.moshi").get())
+                add("implementation", libs.findLibrary("moshi").get())
+                add("implementation", libs.findLibrary("moshi.kotlin").get())
+                add("ksp", libs.findLibrary("moshi.codegen").get())
+                add("implementation", libs.findLibrary("okhttp").get())
+                add("implementation", libs.findLibrary("okhttp.logging.interceptor").get())
             }
         }
     }

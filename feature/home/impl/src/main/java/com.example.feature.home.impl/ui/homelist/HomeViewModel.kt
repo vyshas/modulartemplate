@@ -2,6 +2,7 @@ package com.example.feature.home.impl.ui.homelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.coroutines.DispatcherProvider
 import com.example.core.domain.DomainResult
 import com.example.feature.home.api.domain.model.HomeItem
 import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -19,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getHomeItemsUseCase: GetHomeItemsUseCase
+    private val getHomeItemsUseCase: GetHomeItemsUseCase,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val refreshTrigger = MutableSharedFlow<Unit>()
@@ -35,7 +38,7 @@ class HomeViewModel @Inject constructor(
                     is DomainResult.Error -> emit(HomeUiState.Error(result.message))
                     DomainResult.NetworkError -> emit(HomeUiState.Error("Network error"))
                 }
-            }
+            }.flowOn(dispatcherProvider.io())
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

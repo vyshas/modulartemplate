@@ -66,6 +66,15 @@ class FeatureWiringConventionPlugin : Plugin<Project> {
                 add("testImplementation", libs.findLibrary("junit").get())
                 add("androidTestImplementation", libs.findLibrary("androidx.junit").get())
                 add("androidTestImplementation", libs.findLibrary("androidx.espresso.core").get())
+
+                // Network
+                add("implementation", libs.findLibrary("retrofit").get())
+                add("implementation", libs.findLibrary("retrofit.converter.moshi").get())
+                add("implementation", libs.findLibrary("moshi").get())
+                add("implementation", libs.findLibrary("moshi.kotlin").get())
+                add("ksp", libs.findLibrary("moshi.codegen").get())
+                add("implementation", libs.findLibrary("okhttp").get())
+                add("implementation", libs.findLibrary("okhttp.logging.interceptor").get())
             }
         }
     }

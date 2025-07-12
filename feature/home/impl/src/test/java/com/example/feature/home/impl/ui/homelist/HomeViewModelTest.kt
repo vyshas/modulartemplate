@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.example.core.domain.DomainResult
 import com.example.feature.home.api.domain.model.HomeItem
 import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
+import com.example.testutils.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -25,12 +26,13 @@ class HomeViewModelTest {
     private lateinit var getHomeItemsUseCase: GetHomeItemsUseCase
     private lateinit var homeViewModel: HomeViewModel
     private val testDispatcher = StandardTestDispatcher()
+    private val dispatcherProvider = TestDispatcherProvider(testDispatcher)
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         getHomeItemsUseCase = mockk()
-        homeViewModel = HomeViewModel(getHomeItemsUseCase)
+        homeViewModel = HomeViewModel(getHomeItemsUseCase, dispatcherProvider)
     }
 
     @After

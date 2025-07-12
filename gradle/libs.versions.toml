@@ -1,6 +1,7 @@
 [versions]
 compose = "1.5.1"
 kotlin = "1.9.0"
+kotlin-reflect = "1.9.0"
 core = "1.10.1"
 hilt = "2.50"
 ksp = "1.9.0-1.0.13"
@@ -19,6 +20,9 @@ fragment = "1.7.0"
 lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
 composeBom = "2024.09.00"
+retrofit = "2.9.0"
+okhttp = "4.12.0"
+moshi = "1.15.1"
 mockito = "5.12.0"
 archTesting = "2.2.0"
 turbine = "1.1.0"
@@ -36,6 +40,7 @@ androidx-navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", ve
 # Core Android
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin-reflect" }
 
 # Compose
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
@@ -84,3 +89,12 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# Network
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
+moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
+moshi-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
