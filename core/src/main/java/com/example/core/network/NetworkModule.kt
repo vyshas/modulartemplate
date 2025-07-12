@@ -32,9 +32,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        moshi: Moshi,
+        @GlobalBaseUrl baseUrl: String
+    ): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
-        .baseUrl("https://fakestoreapi.com/") // This will be overridden by features
+        .baseUrl(baseUrl)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 }

@@ -12,6 +12,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "GLOBAL_BASE_URL", "\"https://fakestoreapi.com/\"")
     }
 
     flavorDimensions += "mode"
@@ -27,6 +28,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
 
     composeOptions {
