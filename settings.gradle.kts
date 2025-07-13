@@ -23,3 +23,9 @@ include(":feature:home:demo")
 include(":feature:order:wiring")
 include(":feature:product:api", ":feature:product:impl", ":feature:product:wiring", ":feature:product:demo")
 include(":test-utils")
+
+// Carts Feature
+include(":feature:carts:api")
+include(":feature:carts:impl")
+include(":feature:carts:wiring")
+include(":feature:carts:demo")

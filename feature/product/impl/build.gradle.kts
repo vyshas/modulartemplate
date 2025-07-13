@@ -10,14 +10,8 @@ android {
         minSdk = 24
     }
 
-    flavorDimensions += "mode"
-    productFlavors {
-        create("mock") {
-            dimension = "mode"
-        }
-        create("prod") {
-            dimension = "mode"
-        }
+    buildTypes {
+        maybeCreate("mock")
     }
 
     sourceSets {
@@ -25,13 +19,9 @@ android {
             java.srcDirs("src/main/java")
             assets.srcDirs("src/main/assets")
         }
-        getByName("mock") {
+        maybeCreate("mock").apply {
             java.srcDirs("src/mock/java")
             assets.srcDirs("src/mock/assets")
-        }
-        getByName("prod") {
-            java.srcDirs("src/prod/java")
-            assets.srcDirs("src/prod/assets")
         }
     }
 

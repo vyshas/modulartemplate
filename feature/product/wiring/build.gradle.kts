@@ -3,24 +3,21 @@ plugins {
 }
 
 android {
-    flavorDimensions += "mode"
-    productFlavors {
-        create("mock") {
-            dimension = "mode"
-        }
-        create("prod") {
-            dimension = "mode"
-        }
+    buildTypes {
+        maybeCreate("mock")
     }
     sourceSets {
         getByName("main") {
             java.srcDirs("src/main/java")
         }
-        getByName("mock") {
-            java.srcDirs("src/mock/java")
-        }
-        getByName("prod") {
+        getByName("debug") {
             java.srcDirs("src/prod/java")
+        }
+        getByName("release") {
+            java.srcDirs("src/prod/java")
+        }
+        maybeCreate("mock").apply {
+            java.srcDirs("src/mock/java")
         }
     }
 }

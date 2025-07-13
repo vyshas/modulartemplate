@@ -27,6 +27,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    buildTypes {
+        maybeCreate("mock")
+    }
+    sourceSets {
+        maybeCreate("mock").apply {
+            java.srcDir("src/mock/java")
+        }
+    }
 }
 
 dependencies {

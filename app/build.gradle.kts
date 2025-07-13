@@ -19,6 +19,22 @@ android {
         buildConfigField("String", "GLOBAL_BASE_URL", "\"https://fakestoreapi.com/\"")
     }
 
+    buildTypes {
+        getByName("debug") {
+            buildConfigField("Boolean", "IS_MOCK", "false")
+        }
+        getByName("release") {
+            buildConfigField("Boolean", "IS_MOCK", "false")
+        }
+        create("mock") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".mock"
+            versionNameSuffix = "-mock"
+            buildConfigField("Boolean", "IS_MOCK", "true")
+            matchingFallbacks += listOf("debug")
+        }
+    }
+
     buildFeatures {
         compose = true
         viewBinding = true

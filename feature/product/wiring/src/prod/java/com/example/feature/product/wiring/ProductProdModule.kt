@@ -2,8 +2,8 @@ package com.example.feature.product.wiring
 
 import com.example.feature.product.api.data.ProductRepository
 import com.example.feature.product.impl.data.ApiProductMapper
+import com.example.feature.product.impl.data.repository.ProductRepositoryImpl
 import com.example.feature.product.impl.remote.ProductApi
-import com.example.feature.product.impl.repository.ProductRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
