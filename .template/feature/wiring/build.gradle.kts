@@ -10,7 +10,7 @@ android {
         getByName("main") {
             java.srcDirs("src/main/java")
         }
-        getByName("mock") {
+        maybeCreate("mock").apply {
             java.srcDirs("src/mock/java")
         }
     }

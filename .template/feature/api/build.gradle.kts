@@ -2,6 +2,20 @@ plugins {
     id("pluggo.feature.api")
 }
 
+android {
+    buildTypes {
+        maybeCreate("mock")
+    }
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/java")
+        }
+        maybeCreate("mock").apply {
+            java.srcDirs("src/mock/java")
+        }
+    }
+}
+
 dependencies {
     implementation(project(":core"))
 

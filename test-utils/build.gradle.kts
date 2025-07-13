@@ -25,4 +25,11 @@ dependencies {
     api(project(":core"))
     api(libs.kotlinx.coroutines.test)
     api(libs.junit)
+    api(libs.mockwebserver)
+    api(libs.okio)
+    api(libs.hamcrest)
+    api(libs.retrofit)
+    api(libs.retrofit.converter.moshi)
+    api(libs.moshi.kotlin)
+    api(libs.androidx.arch.core.testing)
 }
