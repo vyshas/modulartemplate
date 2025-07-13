@@ -44,8 +44,8 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      - name: Build app and home demo
-        run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug
+      - name: Build app and feature demos
+        run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug :feature:product:demo:assembleDebug
 
-      - name: Run tests for home and order features
-        run: ./gradlew :feature:home:impl:testDebugUnitTest :feature:order:impl:testDebugUnitTest
+      - name: Run tests for all features
+        run: ./gradlew :feature:home:impl:testDebugUnitTest :feature:order:impl:testDebugUnitTest :feature:product:impl:testDebugUnitTest

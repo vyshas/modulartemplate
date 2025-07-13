@@ -15,15 +15,23 @@ android {
         buildConfigField("String", "GLOBAL_BASE_URL", "\"https://fakestoreapi.com/\"")
     }
 
-    flavorDimensions += "mode"
-    productFlavors {
-        create("mock") {
-            dimension = "mode"
+    buildTypes {
+        getByName("debug") {
+            isDebuggable = true
         }
-        create("prod") {
-            dimension = "mode"
+
+        getByName("release") {
+            isMinifyEnabled = true
+        }
+
+        maybeCreate("mock").apply {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".mock"
+            versionNameSuffix = "-mock"
+            matchingFallbacks += listOf("debug")
         }
     }
+
 
     buildFeatures {
         compose = true

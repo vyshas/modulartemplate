@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Sample Template Feature",
+    "price": 19.99,
+    "description": "This is a sample template feature for testing purposes",
+    "category": "Electronics",
+    "image": "https://example.com/image1.jpg",
+    "rating": {
+      "rate": 4.5,
+      "count": 120
+    }
+  },
+  {
+    "id": 2,
+    "title": "Another Template Feature",
+    "price": 29.99,
+    "description": "Another sample template feature with different properties",
+    "category": "Fashion",
+    "image": "https://example.com/image2.jpg",
+    "rating": {
+      "rate": 3.8,
+      "count": 85
+    }
+  }
+]

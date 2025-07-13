@@ -3,7 +3,7 @@ package com.example.feature.product.wiring
 import android.content.Context
 import com.example.feature.product.api.data.ProductRepository
 import com.example.feature.product.impl.data.ApiProductMapper
-import com.example.feature.product.impl.repository.ProductRepositoryMockImpl
+import com.example.feature.product.impl.data.repository.ProductRepositoryMockImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

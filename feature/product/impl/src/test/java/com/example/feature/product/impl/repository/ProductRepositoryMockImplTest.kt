@@ -4,14 +4,14 @@ import android.content.Context
 import com.example.core.domain.DomainResult
 import com.example.feature.product.api.domain.model.Product
 import com.example.feature.product.impl.data.ApiProductMapper
+import com.example.feature.product.impl.data.repository.ProductRepositoryMockImpl
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import java.io.InputStream
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for ProductRepositoryMockImpl

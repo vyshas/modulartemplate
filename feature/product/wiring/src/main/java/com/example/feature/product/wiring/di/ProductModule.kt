@@ -3,12 +3,11 @@ package com.example.feature.product.wiring.di
 import com.example.core.navigation.FeatureEntry
 import com.example.feature.product.api.ProductEntry
 import com.example.feature.product.api.ProductNavigator
-import com.example.feature.product.api.data.ProductRepository
 import com.example.feature.product.api.domain.usecase.GetProductsUseCase
 import com.example.feature.product.impl.ProductEntryImpl
-import com.example.feature.product.impl.navigation.ProductNavigatorImpl
-import com.example.feature.product.impl.domain.usecase.GetProductsUseCaseImpl
 import com.example.feature.product.impl.data.ApiProductMapper
+import com.example.feature.product.impl.domain.usecase.GetProductsUseCaseImpl
+import com.example.feature.product.impl.navigation.ProductNavigatorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
