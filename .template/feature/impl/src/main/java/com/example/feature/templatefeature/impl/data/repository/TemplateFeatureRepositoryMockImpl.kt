@@ -1,9 +1,9 @@
-package com.example.feature.templatefeature.impl.repository
+package com.example.feature.templatefeature.impl.data.repository
 
 import android.content.Context
 import com.example.core.domain.DomainResult
-import com.example.feature.templatefeature.api.domain.model.TemplateFeature
 import com.example.feature.templatefeature.api.data.TemplateFeatureRepository
+import com.example.feature.templatefeature.api.domain.model.TemplateFeature
 import com.example.feature.templatefeature.impl.data.ApiTemplateFeature
 import com.example.feature.templatefeature.impl.data.ApiTemplateFeatureMapper
 import com.squareup.moshi.Moshi
@@ -21,7 +21,8 @@ class TemplateFeatureRepositoryMockImpl @Inject constructor(
         return try {
             val json = readJsonFromAssets("templatefeature_mock.json")
             val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-            val listType = Types.newParameterizedType(List::class.java, ApiTemplateFeature::class.java)
+            val listType =
+                Types.newParameterizedType(List::class.java, ApiTemplateFeature::class.java)
             val adapter = moshi.adapter<List<ApiTemplateFeature>>(listType)
             val apiTemplateFeatures = adapter.fromJson(json)
             val templatefeatures = apiTemplateFeatures?.map { mapper.map(it) } ?: emptyList()

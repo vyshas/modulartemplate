@@ -11,7 +11,7 @@ android {
             java.srcDirs("src/main/java")
         }
         maybeCreate("mock").apply {
-            java.srcDirs("src/mock/java")
+            java.srcDir("src/mock/java")
         }
     }
 }

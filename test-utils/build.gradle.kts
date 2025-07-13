@@ -11,6 +11,10 @@ android {
         minSdk = 24
     }
 
+    buildTypes {
+        maybeCreate("mock")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

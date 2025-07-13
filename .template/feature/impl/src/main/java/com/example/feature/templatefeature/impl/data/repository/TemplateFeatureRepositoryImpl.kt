@@ -1,4 +1,4 @@
-package com.example.feature.templatefeature.impl.repository
+package com.example.feature.templatefeature.impl.data.repository
 
 import com.example.core.domain.DomainResult
 import com.example.feature.templatefeature.api.domain.model.TemplateFeature

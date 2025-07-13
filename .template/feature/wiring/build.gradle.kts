@@ -10,6 +10,12 @@ android {
         getByName("main") {
             java.srcDirs("src/main/java")
         }
+        getByName("debug") {
+            java.srcDirs("src/prod/java")
+        }
+        getByName("release") {
+            java.srcDirs("src/prod/java")
+        }
         maybeCreate("mock").apply {
             java.srcDirs("src/mock/java")
         }
@@ -17,7 +23,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:templatefeature:api"))
-    implementation(project(":feature:templatefeature:impl"))
+    api(project(":feature:templatefeature:api"))
+    api(project(":feature:templatefeature:impl"))
     implementation(project(":core"))
 }

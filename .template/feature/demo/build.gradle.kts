@@ -16,21 +16,19 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            isDebuggable = true
+        }
+
+        getByName("release") {
+            isMinifyEnabled = true
+        }
+
         maybeCreate("mock").apply {
             initWith(getByName("debug"))
             applicationIdSuffix = ".mock"
             versionNameSuffix = "-mock"
             matchingFallbacks += listOf("debug")
-        }
-    }
-    sourceSets {
-        getByName("main") {
-            java.srcDirs("src/main/java")
-            assets.srcDirs("src/main/assets")
-        }
-        maybeCreate("mock").apply {
-            java.srcDirs("src/mock/java")
-            assets.srcDirs("src/mock/assets")
         }
     }
 

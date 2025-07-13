@@ -2,8 +2,8 @@ package com.example.feature.templatefeature.wiring
 
 import com.example.feature.templatefeature.api.data.TemplateFeatureRepository
 import com.example.feature.templatefeature.impl.data.ApiTemplateFeatureMapper
+import com.example.feature.templatefeature.impl.data.repository.TemplateFeatureRepositoryImpl
 import com.example.feature.templatefeature.impl.remote.TemplateFeatureApi
-import com.example.feature.templatefeature.impl.repository.TemplateFeatureRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,6 +1,28 @@
 # Android Modular Architecture Sample
 
-This project demonstrates a modular Android application architecture using Kotlin, focusing on feature isolation and clean architecture principles. It showcases how to build scalable Android applications with proper separation of concerns.
+## Modular Android Architecture · Feature Scaffolding
+
+## 🚀 Instant Feature Module Creation
+
+This project supports rapid creation of fully-wired feature modules (like Offers, Orders, Coupons)
+using a standardized template system. New feature modules will always match real product features in
+structure and configuration.
+
+- **Template location:** `.template/feature` mirrors a real working feature (includes `api`, `impl`,
+  `wiring`, `demo`, and all required Gradle/config files)
+- **Script:** Use `./create-feature.sh <FeatureName>` to generate a new module—example:
+  `./create-feature.sh Orders`
+- **Naming/singular/plural tip:**
+    - Use `TemplateFeature` for singular and `TemplateFeatures` for plural forms in the template.
+      This ensures that replacements like `TemplateFeatures` → `Orders` will NOT create `Orderss`.
+    - If a rare adjustment is needed, do a quick rename post-generation.
+- **Generated modules:**
+    - Have all correct Gradle configs, build/test/run out of the box
+    - Come with proper mock/test support and demo apps
+    - Are registered in `settings.gradle.kts` automatically
+
+For advanced and detailed documentation on the feature scaffolding process, refer
+to [FEATURE_SCAFFOLDING.md](FEATURE_SCAFFOLDING.md).
 
 ---
 
@@ -68,7 +90,7 @@ graph TD
 
   HomeDemo --> HomeWiring
   OrderDemo --> OrderWiring
-````
+```
 
 ---
 

@@ -3,7 +3,7 @@ package com.example.feature.templatefeature.wiring
 import android.content.Context
 import com.example.feature.templatefeature.api.data.TemplateFeatureRepository
 import com.example.feature.templatefeature.impl.data.ApiTemplateFeatureMapper
-import com.example.feature.templatefeature.impl.repository.TemplateFeatureRepositoryMockImpl
+import com.example.feature.templatefeature.impl.data.repository.TemplateFeatureRepositoryMockImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

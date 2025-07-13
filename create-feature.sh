@@ -1,8 +1,14 @@
 #!/bin/bash
 
-# Create Carts feature manually
-FEATURE_NAME="Carts"
-FEATURE_NAME_LOWER="carts"
+# Get feature name from command line argument
+if [ -z "$1" ]; then
+    echo "Usage: $0 <FeatureName>"
+    echo "Example: $0 Orders"
+    exit 1
+fi
+
+FEATURE_NAME="$1"
+FEATURE_NAME_LOWER=$(echo "$FEATURE_NAME" | tr '[:upper:]' '[:lower:]')
 
 echo "🚀 Creating feature: $FEATURE_NAME"
 
