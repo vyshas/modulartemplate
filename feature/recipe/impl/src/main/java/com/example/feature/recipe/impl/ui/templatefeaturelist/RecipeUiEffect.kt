@@ -2,5 +2,5 @@ package com.example.feature.recipe.impl.ui.recipelist
 
 sealed interface RecipeUiEffect {
     data class ShowToast(val message: String) : RecipeUiEffect
-    data class NavigateTorecipeDetail(val recipeId: Int) : RecipeUiEffect
+    data class NavigateToRecipeDetail(val recipeId: Int) : RecipeUiEffect
 }

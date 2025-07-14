@@ -46,9 +46,14 @@ fun RecipeScreen(
                 is RecipeUiEffect.ShowToast -> {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
-                is RecipeUiEffect.NavigateTorecipeDetail -> {
+
+                is RecipeUiEffect.NavigateToRecipeDetail -> {
                     // TODO: Implement actual navigation using recipeNavigator
-                    Toast.makeText(context, "Navigate to recipe detail for ID: ${it.recipeId}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Navigate to recipe detail for ID: ${it.recipeId}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -56,7 +61,11 @@ fun RecipeScreen(
 
     RecipeScreenContent(
         uiState = uiState,
-        onItemClick = { recipe -> viewModel.onIntent(RecipeUiIntent.recipeClicked(recipe.id)) },
+        onItemClick = { recipe ->
+            viewModel.onIntent(
+                RecipeUiIntent.recipeClicked(recipe.id)
+            )
+        },
         onRefresh = { viewModel.onIntent(RecipeUiIntent.Fetchrecipes) }
     )
 }

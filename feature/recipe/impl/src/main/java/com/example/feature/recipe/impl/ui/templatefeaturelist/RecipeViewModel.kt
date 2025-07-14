@@ -58,7 +58,7 @@ class RecipeViewModel @Inject constructor(
 
     private fun onrecipeClicked(recipeId: Int) {
         viewModelScope.launch {
-            _uiEffect.emit(RecipeUiEffect.NavigateTorecipeDetail(recipeId))
+            _uiEffect.emit(RecipeUiEffect.NavigateToRecipeDetail(recipeId))
         }
     }
 
