@@ -4,7 +4,7 @@ data class ApiRecipeListResponse(
     val limit: Int,
     val recipes: List<ApiRecipe>,
     val skip: Int,
-    val total: Int
+    val total: Int,
 )
 
 data class ApiRecipe(
@@ -23,5 +23,5 @@ data class ApiRecipe(
     val reviewCount: Int,
     val servings: Int,
     val tags: List<String>,
-    val userId: Int
+    val userId: Int,
 )

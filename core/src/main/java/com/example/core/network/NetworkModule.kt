@@ -24,11 +24,12 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
-    ): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        })
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(
+            HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            },
+        )
         .build()
 
     @Provides
@@ -37,7 +38,7 @@ object NetworkModule {
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         moshi: Moshi,
-        @GlobalBaseUrl baseUrl: String
+        @GlobalBaseUrl baseUrl: String,
     ): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(baseUrl)

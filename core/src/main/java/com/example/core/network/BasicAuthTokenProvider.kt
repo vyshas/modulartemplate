@@ -7,7 +7,7 @@ import android.util.Base64
  */
 class BasicAuthTokenProvider(
     private val username: String,
-    private val password: String
+    private val password: String,
 ) : TokenProvider {
 
     override fun getHeaderKey(): String = "Authorization"
@@ -16,7 +16,7 @@ class BasicAuthTokenProvider(
         val credentials = "$username:$password"
         val encoded = Base64.encodeToString(
             credentials.toByteArray(),
-            Base64.NO_WRAP
+            Base64.NO_WRAP,
         )
         return "Basic $encoded"
     }

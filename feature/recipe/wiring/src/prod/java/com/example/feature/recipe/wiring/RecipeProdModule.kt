@@ -27,11 +27,10 @@ object RecipeProdModule {
     @RecipeBaseUrl
     fun provideRecipeBaseUrl(): String = "https://dummyjson.com/"
 
-
     @Provides
     @Singleton
     fun provideRecipeApi(
-        @Recipe retrofit: Retrofit
+        @Recipe retrofit: Retrofit,
     ): RecipeApi {
         return retrofit.create(RecipeApi::class.java)
     }
@@ -42,9 +41,11 @@ object RecipeProdModule {
         authInterceptor: AuthInterceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(authInterceptor)
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        })
+        .addInterceptor(
+            HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            },
+        )
         .build()
 
     @Provides
@@ -52,7 +53,7 @@ object RecipeProdModule {
     fun provideRetrofit(
         client: OkHttpClient,
         moshi: Moshi,
-        @RecipeBaseUrl baseUrl: String
+        @RecipeBaseUrl baseUrl: String,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -65,7 +66,7 @@ object RecipeProdModule {
     @Singleton
     fun provideRecipeRepository(
         api: RecipeApi,
-        mapper: ApiRecipeMapper
+        mapper: ApiRecipeMapper,
     ): RecipeRepository = RecipeRepositoryImpl(api, mapper)
 
     @Provides
@@ -80,5 +81,4 @@ object RecipeProdModule {
             }
         }
     }
-
 }

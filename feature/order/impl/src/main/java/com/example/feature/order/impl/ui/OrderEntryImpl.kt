@@ -31,4 +31,3 @@ class OrderEntryImpl @Inject constructor() : OrderEntry, BottomNavEntry {
         navController.setGraph(graph, null)
     }
 }
-

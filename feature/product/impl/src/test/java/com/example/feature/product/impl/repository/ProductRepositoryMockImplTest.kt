@@ -105,7 +105,7 @@ class ProductRepositoryMockImplTest {
         result as DomainResult.Error
         assertTrue(
             "Error message should contain 'Failed to load mock products'",
-            result.message.startsWith("Failed to load mock products:")
+            result.message.startsWith("Failed to load mock products:"),
         )
     }
 
@@ -140,7 +140,7 @@ class ProductRepositoryMockImplTest {
         result as DomainResult.Error
         assertTrue(
             "Error message should contain 'Failed to load mock products'",
-            result.message.startsWith("Failed to load mock products:")
+            result.message.startsWith("Failed to load mock products:"),
         )
     }
 }

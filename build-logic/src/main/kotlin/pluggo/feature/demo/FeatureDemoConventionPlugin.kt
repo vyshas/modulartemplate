@@ -41,7 +41,6 @@ class FeatureDemoConventionPlugin : Plugin<Project> {
                     viewBinding = true
                 }
 
-
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
                 composeOptions {
@@ -50,7 +49,7 @@ class FeatureDemoConventionPlugin : Plugin<Project> {
                 }
 
                 (this as ExtensionAware).extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions>(
-                    "kotlinOptions"
+                    "kotlinOptions",
                 ) {
                     jvmTarget = "17"
                 }
@@ -73,7 +72,7 @@ class FeatureDemoConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewmodel.ktx").get())
                 add(
                     "implementation",
-                    libs.findLibrary("androidx.lifecycle.viewmodel.compose").get()
+                    libs.findLibrary("androidx.lifecycle.viewmodel.compose").get(),
                 )
                 add("implementation", libs.findLibrary("androidx.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.navigation.fragment.ktx").get())

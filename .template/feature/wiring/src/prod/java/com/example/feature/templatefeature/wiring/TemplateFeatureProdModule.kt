@@ -19,7 +19,7 @@ object TemplateFeatureProdModule {
     @Provides
     @Singleton
     fun provideTemplateFeatureApi(
-        @GlobalRetrofit retrofit: Retrofit
+        @GlobalRetrofit retrofit: Retrofit,
     ): TemplateFeatureApi {
         return retrofit.create(TemplateFeatureApi::class.java)
     }
@@ -28,6 +28,6 @@ object TemplateFeatureProdModule {
     @Singleton
     fun provideTemplateFeatureRepository(
         api: TemplateFeatureApi,
-        mapper: ApiTemplateFeatureMapper
+        mapper: ApiTemplateFeatureMapper,
     ): TemplateFeatureRepository = TemplateFeatureRepositoryImpl(api, mapper)
 }

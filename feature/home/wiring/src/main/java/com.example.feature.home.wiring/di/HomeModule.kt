@@ -28,43 +28,43 @@ abstract class HomeModule {
     @Binds
     @Singleton
     abstract fun bindGetHomeItemsUseCase(
-        impl: GetHomeItemsUseCaseImpl
+        impl: GetHomeItemsUseCaseImpl,
     ): GetHomeItemsUseCase
 
     @Binds
     @Singleton
     abstract fun bindHomeRepository(
-        impl: HomeRepositoryImpl
+        impl: HomeRepositoryImpl,
     ): HomeRepository
 
     @Binds
     @Singleton
     abstract fun bindGetHomeItemByIdUseCase(
-        impl: GetHomeItemByIdUseCaseImpl
+        impl: GetHomeItemByIdUseCaseImpl,
     ): GetHomeItemByIdUseCase
 
     @Binds
     @IntoSet
     abstract fun bindHomeEntry(
-        homeEntryImpl: HomeEntryImpl
+        homeEntryImpl: HomeEntryImpl,
     ): FeatureEntry
 
     @Binds
     @IntoSet
     abstract fun bindHomeTabEntry(
-        home: HomeEntryImpl
+        home: HomeEntryImpl,
     ): BottomNavEntry
 
     @Binds
     @Singleton
     abstract fun bindHomeNavigator(
-        impl: HomeNavigatorImpl
+        impl: HomeNavigatorImpl,
     ): HomeNavigator
 
     @Binds
     @Singleton
     abstract fun bindHomeEntryAsHomeEntry(
-        impl: HomeEntryImpl
+        impl: HomeEntryImpl,
     ): HomeEntry
 
     companion object {

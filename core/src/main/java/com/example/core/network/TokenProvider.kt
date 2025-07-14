@@ -5,6 +5,6 @@ package com.example.core.network
  * Each feature can bind its own implementation of this.
  */
 interface TokenProvider {
-    fun getHeaderKey(): String     // e.g. "Authorization", "x-api-key"
-    fun getToken(): String         // e.g. "Bearer abc123" or raw API key
+    fun getHeaderKey(): String // e.g. "Authorization", "x-api-key"
+    fun getToken(): String // e.g. "Bearer abc123" or raw API key
 }

@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrderViewModel @Inject constructor(
-    private val getOrderDetailsUseCase: GetOrderDetailsUseCase
+    private val getOrderDetailsUseCase: GetOrderDetailsUseCase,
 ) : ViewModel() {
 
     val uiState: StateFlow<OrderUiState> = flow {
@@ -26,7 +26,7 @@ class OrderViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = OrderUiState(isLoading = true)
+        initialValue = OrderUiState(isLoading = true),
     )
     private val _uiEffect = MutableSharedFlow<OrderUiEffect>()
     val uiEffect: SharedFlow<OrderUiEffect> = _uiEffect.asSharedFlow()

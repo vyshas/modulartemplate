@@ -9,7 +9,7 @@ import javax.inject.Inject
 class ProductNavigatorImpl @Inject constructor() : ProductNavigator {
     override fun intentFor(
         context: Context,
-        destination: ProductDestination
+        destination: ProductDestination,
     ): Intent {
         // TODO: Properly route to a product detail/activity if needed
         return Intent()

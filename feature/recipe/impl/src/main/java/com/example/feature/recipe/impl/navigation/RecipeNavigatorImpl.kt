@@ -9,7 +9,7 @@ import javax.inject.Inject
 class RecipeNavigatorImpl @Inject constructor() : RecipeNavigator {
     override fun intentFor(
         context: Context,
-        destination: RecipeDestination
+        destination: RecipeDestination,
     ): Intent {
         // TODO: Properly route to a recipe detail/activity if needed
         return Intent()

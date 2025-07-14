@@ -47,5 +47,11 @@ jobs:
       - name: Build app and feature demos
         run: ./gradlew :app:assembleDebug :feature:home:demo:assembleDebug :feature:product:demo:assembleDebug
 
+      - name: Check code format with Spotless
+        run: ./gradlew spotlessCheck
+
+      - name: Run static code analysis with Detekt
+        run: ./gradlew detekt --build-cache --parallel --max-workers=2
+
       - name: Run tests for all features
         run: ./gradlew :feature:home:impl:testDebugUnitTest :feature:order:impl:testDebugUnitTest :feature:product:impl:testDebugUnitTest

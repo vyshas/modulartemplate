@@ -1,20 +1,10 @@
 package com.example.feature.templatefeature.impl.repository
 
-import com.example.core.domain.DomainResult
 import com.example.feature.templatefeature.api.data.TemplateFeatureRepository
-import com.example.feature.templatefeature.api.domain.model.TemplateFeature
-import com.example.feature.templatefeature.impl.data.ApiTemplateFeature
 import com.example.feature.templatefeature.impl.data.ApiTemplateFeatureMapper
-import com.example.feature.templatefeature.impl.data.ApiRating
 import com.example.feature.templatefeature.impl.remote.TemplateFeatureApi
-import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Test
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 
 /**
  * Tests for TemplateFeatureRepository behavior (TemplateFeatureion implementation pattern)
@@ -35,5 +25,4 @@ class TemplateFeatureRepositoryImplTest {
         apiTemplateFeatureMapper = ApiTemplateFeatureMapper()
         mockRepository = mockk()
     }
-
 }

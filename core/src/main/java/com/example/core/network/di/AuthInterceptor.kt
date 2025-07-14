@@ -10,7 +10,7 @@ import javax.inject.Provider
  * Reusable interceptor that attaches auth headers if a TokenProvider is available.
  */
 class AuthInterceptor @Inject constructor(
-    private val tokenProvider: Provider<TokenProvider>
+    private val tokenProvider: Provider<TokenProvider>,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

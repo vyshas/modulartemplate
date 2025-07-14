@@ -19,7 +19,7 @@ object TemplateFeatureMockModule {
     @Singleton
     fun provideTemplateFeatureRepository(
         @ApplicationContext context: Context,
-        mapper: ApiTemplateFeatureMapper
+        mapper: ApiTemplateFeatureMapper,
     ): TemplateFeatureRepository {
         // Ensure we use application context, which is properly injected by Hilt
         return TemplateFeatureRepositoryMockImpl(context.applicationContext, mapper)

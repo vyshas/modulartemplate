@@ -37,7 +37,7 @@ class FeatureApiConventionPlugin : Plugin<Project> {
                 }
 
                 (this as ExtensionAware).extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions>(
-                    "kotlinOptions"
+                    "kotlinOptions",
                 ) {
                     jvmTarget = "17"
                 }

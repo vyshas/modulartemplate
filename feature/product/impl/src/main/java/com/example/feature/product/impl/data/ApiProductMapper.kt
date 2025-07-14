@@ -14,7 +14,7 @@ class ApiProductMapper : Mapper<ApiProduct, Product> {
         image = from.image,
         rating = Rating(
             rate = from.rating.rate,
-            count = from.rating.count
-        )
+            count = from.rating.count,
+        ),
     )
 }

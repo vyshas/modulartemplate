@@ -64,8 +64,8 @@ class ProductViewModelTest {
                 description = "Test description",
                 category = "Test category",
                 image = "test.jpg",
-                rating = Rating(4.5, 10)
-            )
+                rating = Rating(4.5, 10),
+            ),
         )
         coEvery { getProductsUseCase.getProducts() } returns DomainResult.Success(products)
 
@@ -118,15 +118,15 @@ class ProductViewModelTest {
     fun `FetchProducts intent triggers refresh`() = runTest(testDispatcher) {
         // Given
         val products1 = listOf(
-            Product(1, "Product 1", 10.0, "Desc 1", "Cat 1", "img1.jpg", Rating(4.0, 5))
+            Product(1, "Product 1", 10.0, "Desc 1", "Cat 1", "img1.jpg", Rating(4.0, 5)),
         )
         val products2 = listOf(
-            Product(2, "Product 2", 20.0, "Desc 2", "Cat 2", "img2.jpg", Rating(4.5, 10))
+            Product(2, "Product 2", 20.0, "Desc 2", "Cat 2", "img2.jpg", Rating(4.5, 10)),
         )
 
         coEvery { getProductsUseCase.getProducts() } returnsMany listOf(
             DomainResult.Success(products1),
-            DomainResult.Success(products2)
+            DomainResult.Success(products2),
         )
 
         productViewModel.uiState.test {

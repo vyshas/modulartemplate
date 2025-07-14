@@ -25,5 +25,4 @@ class RecipeRepositoryImplTest {
         apirecipeMapper = ApiRecipeMapper()
         mockRepository = mockk()
     }
-
 }

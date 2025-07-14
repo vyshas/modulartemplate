@@ -15,7 +15,7 @@ import kotlin.collections.emptyList
 
 class ProductRepositoryMockImpl @Inject constructor(
     private val context: Context,
-    private val mapper: ApiProductMapper
+    private val mapper: ApiProductMapper,
 ) : ProductRepository {
 
     override suspend fun getProducts(): DomainResult<List<Product>> {

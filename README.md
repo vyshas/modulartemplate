@@ -1,5 +1,33 @@
 # Android Modular Architecture Sample
 
+## 🚦 Code Style & Quality
+
+- **Formatting:** Enforced
+  by [Spotless](https://github.com/diffplug/spotless) + [ktlint](https://github.com/pinterest/ktlint)
+    - 4-space indentation, trailing commas, clean imports, spacing, and brace style matching Kotlin
+      conventions
+    - Wildcard imports are forbidden in main code (auto-fixable), but allowed in test files
+    - Blank lines, trailing whitespace, blank line grouping are auto-fixed
+    - For Compose code, @Composable functions may use PascalCase names (e.g. `RecipeScreen()`)
+- **Naming conventions:**
+    - Class, object, and data class names: `PascalCase`
+    - Function names: `camelCase` in regular code, `PascalCase` is allowed for `@Composable`
+    - Property and parameter names: `camelCase`
+    - Package names: all-lowercase
+    - Enum entries: `UPPER_SNAKE_CASE`
+    - **Naming convention errors (including function/class naming)** are not auto-fixed—manual
+      correction is required but violations are caught by CI
+- **Code quality:** [Detekt](https://detekt.dev/) runs with a team-friendly set of rules in [
+  `detekt.yml`](./detekt.yml). It enforces best practices, flagging complexity, import, and design
+  code smells.
+- **Running checks:**
+    - Format and check: `./gradlew spotlessApply && ./gradlew spotlessCheck`
+    - Static analysis: `./gradlew detekt`
+    - Generate a baseline for detekt (to ignore current code issues, if needed):
+      `./gradlew detektBaseline`
+
+See `.editorconfig` and `detekt.yml` for all details and rules.
+
 ## Modular Android Architecture · Feature Scaffolding
 
 ## 🚀 Instant Feature Module Creation

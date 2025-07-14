@@ -11,10 +11,10 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for ProductRepository behavior (Production implementation pattern)
@@ -47,7 +47,7 @@ class ProductRepositoryImplTest {
                 description = "desc1",
                 category = "cat1",
                 image = "url1",
-                rating = com.example.feature.product.api.domain.model.Rating(rate = 4.0, count = 10)
+                rating = com.example.feature.product.api.domain.model.Rating(rate = 4.0, count = 10),
             ),
             Product(
                 id = 2,
@@ -56,8 +56,8 @@ class ProductRepositoryImplTest {
                 description = "desc2",
                 category = "cat2",
                 image = "url2",
-                rating = com.example.feature.product.api.domain.model.Rating(rate = 3.5, count = 20)
-            )
+                rating = com.example.feature.product.api.domain.model.Rating(rate = 3.5, count = 20),
+            ),
         )
 
         coEvery { mockRepository.getProducts() } returns DomainResult.Success(expectedProducts)
@@ -119,7 +119,7 @@ class ProductRepositoryImplTest {
             description = "Test description",
             category = "electronics",
             image = "https://test.com/image.jpg",
-            rating = ApiRating(rate = 4.5, count = 120)
+            rating = ApiRating(rate = 4.5, count = 120),
         )
 
         // When
@@ -161,8 +161,8 @@ class ProductRepositoryImplTest {
                 description = "Testing repository contract",
                 category = "test",
                 image = "test.jpg",
-                rating = com.example.feature.product.api.domain.model.Rating(rate = 3.0, count = 5)
-            )
+                rating = com.example.feature.product.api.domain.model.Rating(rate = 3.0, count = 5),
+            ),
         )
         coEvery { mockRepository.getProducts() } returns DomainResult.Success(products)
 

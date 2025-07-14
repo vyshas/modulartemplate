@@ -11,6 +11,6 @@ abstract class CoroutineModule {
 
     @Binds
     abstract fun bindCoroutineDispatchers(
-        defaultCoroutineDispatchers: DefaultCoroutineDispatchers
+        defaultCoroutineDispatchers: DefaultCoroutineDispatchers,
     ): CoroutineDispatchers
 }

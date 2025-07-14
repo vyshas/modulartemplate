@@ -25,7 +25,7 @@ include(
     ":feature:product:api",
     ":feature:product:impl",
     ":feature:product:wiring",
-    ":feature:product:demo"
+    ":feature:product:demo",
 )
 include(":test-utils")
 

@@ -4,4 +4,3 @@ sealed interface OrderUiIntent {
     object FetchOrder : OrderUiIntent
     object OnViewHomeDetailClicked : OrderUiIntent
 }
-

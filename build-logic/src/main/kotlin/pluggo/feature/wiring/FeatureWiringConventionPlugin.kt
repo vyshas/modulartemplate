@@ -40,13 +40,13 @@ class FeatureWiringConventionPlugin : Plugin<Project> {
                         isMinifyEnabled = false
                         proguardFiles(
                             getDefaultProguardFile("proguard-android-optimize.txt"),
-                            "proguard-rules.pro"
+                            "proguard-rules.pro",
                         )
                     }
                 }
 
                 (this as ExtensionAware).extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions>(
-                    "kotlinOptions"
+                    "kotlinOptions",
                 ) {
                     jvmTarget = "17"
                 }
@@ -60,7 +60,6 @@ class FeatureWiringConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-
                 add("implementation", libs.findLibrary("hilt.android").get())
                 add("ksp", libs.findLibrary("hilt.compiler").get())
                 add("testImplementation", libs.findLibrary("junit").get())

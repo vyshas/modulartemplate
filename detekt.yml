@@ -1,0 +1,90 @@
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+
+config:
+  validation: true
+
+processors:
+  active: true
+
+console-reports:
+  active: true
+  exclude:
+    - 'ProjectStatisticsReport'
+    - 'FindingsReport'
+
+output-reports:
+  active: true
+  exclude:
+    - 'TxtOutputReport'
+    - 'XmlOutputReport'
+    - 'HtmlOutputReport'
+
+comments:
+  active: true
+  CommentOverPrivateFunction: { active: false }
+  UndocumentedPublicClass: { active: false }
+  UndocumentedPublicFunction: { active: false }
+
+complexity:
+  active: true
+  TooManyFunctions: { active: true, thresholdInClasses: 15 }
+  ComplexCondition: { active: true, threshold: 5 }
+  LongParameterList: { active: true, threshold: 5 }
+
+empty-blocks:
+  active: true
+  EmptyCatchBlock: { active: false }
+
+exceptions:
+  active: true
+  SwallowedException: { active: false }
+
+formatting:
+  active: true
+  android: true
+  Indentation:
+    active: true
+    indentSize: 4
+    continuationIndentSize: 4
+  MaximumLineLength:
+    active: false
+
+naming:
+  active: true
+  ClassNaming:
+    active: true
+    classPattern: '[A-Z][a-zA-Z0-9]*'
+  FunctionNaming:
+    active: true
+    functionPattern: '([a-z][a-zA-Z0-9]*)|(`.*`)'
+  VariableNaming:
+    active: true
+    variablePattern: '[a-z][A-Za-z0-9]*'
+  PackageNaming:
+    active: true
+    packagePattern: '^[a-z]+(\.[a-z][a-z0-9]*)*$'
+  EnumNaming:
+    active: true
+    enumEntryPattern: '^[A-Z][_A-Z0-9]*$'
+
+performance:
+  active: true
+
+potential-bugs:
+  active: true
+
+style:
+  active: true
+  MagicNumber: { active: false }
+  DataClassShouldBeImmutable: { active: false }
+  WildcardImports: { active: true }
+  ReturnCount: { active: false }
+  UnusedImports: { active: true }
+  RedundantVisibilityModifierRule: { active: true }
+  ForbiddenComment:
+    active: false
+
+kotlin_script:
+  active: true

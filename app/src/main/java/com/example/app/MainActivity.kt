@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 0,
                 entry.route().hashCode(),
                 entry.bottomNavPosition(),
-                entry.label()
+                entry.label(),
             ).setIcon(entry.iconRes())
         }
 
@@ -89,12 +89,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBackHandler() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val current = supportFragmentManager.findFragmentByTag(currentTab)
-                val handled = (current as? OnBackPressedHandler)?.onBackPressed() ?: false
-                if (!handled) finish()
-            }
-        })
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val current = supportFragmentManager.findFragmentByTag(currentTab)
+                    val handled = (current as? OnBackPressedHandler)?.onBackPressed() ?: false
+                    if (!handled) finish()
+                }
+            },
+        )
     }
 }

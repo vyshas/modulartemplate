@@ -15,9 +15,8 @@ class ApiRecipeMapper : Mapper<ApiRecipeListResponse, List<Recipe>> {
                 ingredients = recipeRaw.ingredients,
                 instructions = recipeRaw.instructions,
                 mealType = recipeRaw.mealType,
-                name = recipeRaw.name
+                name = recipeRaw.name,
             )
-
         }
     }
 }

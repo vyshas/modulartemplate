@@ -35,7 +35,7 @@ import com.example.feature.recipe.api.domain.model.Recipe
 
 @Composable
 fun RecipeScreen(
-    viewModel: RecipeViewModel
+    viewModel: RecipeViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -52,7 +52,7 @@ fun RecipeScreen(
                     Toast.makeText(
                         context,
                         "Navigate to recipe detail for ID: ${it.recipeId}",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_SHORT,
                     ).show()
                 }
             }
@@ -61,12 +61,8 @@ fun RecipeScreen(
 
     RecipeScreenContent(
         uiState = uiState,
-        onItemClick = { recipe ->
-            viewModel.onIntent(
-                RecipeUiIntent.recipeClicked(recipe.id)
-            )
-        },
-        onRefresh = { viewModel.onIntent(RecipeUiIntent.Fetchrecipes) }
+        onItemClick = { recipe -> viewModel.onIntent(RecipeUiIntent.RecipeClicked(recipe.id)) },
+        onRefresh = { viewModel.onIntent(RecipeUiIntent.FetchRecipes) },
     )
 }
 
@@ -74,13 +70,13 @@ fun RecipeScreen(
 fun RecipeScreenContent(
     uiState: RecipeUiState,
     onItemClick: (Recipe) -> Unit,
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
 ) {
     when (uiState) {
         is RecipeUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onRefresh
+                onRetry = onRefresh,
             )
         }
 
@@ -91,7 +87,7 @@ fun RecipeScreenContent(
         is RecipeUiState.Success -> {
             SuccessState(
                 recipes = uiState.Recipes,
-                onItemClick = onItemClick
+                onItemClick = onItemClick,
             )
         }
     }
@@ -100,27 +96,27 @@ fun RecipeScreenContent(
 @Composable
 private fun ErrorState(
     message: String,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = message,
                 color = MaterialTheme.colors.error,
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = onRetry,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             ) {
                 Text("Retry")
             }
@@ -132,19 +128,19 @@ private fun ErrorState(
 private fun LoadingState() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             CircularProgressIndicator(
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colors.primary,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Loading...",
                 style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -154,15 +150,15 @@ private fun LoadingState() {
 private fun EmptyState(onRefresh: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "No recipes available",
                 style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = onRefresh) {
@@ -180,23 +176,23 @@ fun RecipeItem(recipe: Recipe, onClick: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .clickable { onClick() },
         elevation = 2.dp,
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = recipe.name,
                 style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             Text(
                 text = "$${recipe.caloriesPerServing}",
                 style = MaterialTheme.typography.caption,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -205,19 +201,19 @@ fun RecipeItem(recipe: Recipe, onClick: () -> Unit) {
 @Composable
 private fun SuccessState(
     recipes: List<Recipe>,
-    onItemClick: (Recipe) -> Unit
+    onItemClick: (Recipe) -> Unit,
 ) {
     if (recipes.isEmpty()) {
         EmptyState(onRefresh = { /* TODO: Handle refresh for empty state */ })
     } else {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(recipes) { recipe ->
                 RecipeItem(
                     recipe = recipe,
-                    onClick = { onItemClick(recipe) }
+                    onClick = { onItemClick(recipe) },
                 )
             }
         }
@@ -263,7 +259,7 @@ fun RecipeScreenPreviewEmpty() {
         RecipeScreenContent(
             uiState = RecipeUiState.Success(emptyList()),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -275,7 +271,7 @@ fun RecipeScreenPreviewLoading() {
         RecipeScreenContent(
             uiState = RecipeUiState.Loading,
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -287,7 +283,7 @@ fun RecipeScreenPreviewError() {
         RecipeScreenContent(
             uiState = RecipeUiState.Error("Something went wrong. Please check your internet connection."),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }

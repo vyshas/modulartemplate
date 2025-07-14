@@ -1,6 +1,6 @@
 package com.example.feature.recipe.impl.ui.recipelist
 
 sealed interface RecipeUiIntent {
-    object Fetchrecipes : RecipeUiIntent
-    data class recipeClicked(val recipeId: Int) : RecipeUiIntent
+    object FetchRecipes : RecipeUiIntent
+    data class RecipeClicked(val recipeId: Int) : RecipeUiIntent
 }

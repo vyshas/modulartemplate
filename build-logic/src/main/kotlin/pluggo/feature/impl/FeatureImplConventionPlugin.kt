@@ -38,7 +38,6 @@ class FeatureImplConventionPlugin : Plugin<Project> {
                     compose = true
                 }
 
-
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
                 composeOptions {
@@ -47,7 +46,7 @@ class FeatureImplConventionPlugin : Plugin<Project> {
                 }
 
                 (this as ExtensionAware).extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions>(
-                    "kotlinOptions"
+                    "kotlinOptions",
                 ) {
                     jvmTarget = "17"
                 }
@@ -74,7 +73,7 @@ class FeatureImplConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewmodel.ktx").get())
                 add(
                     "implementation",
-                    libs.findLibrary("androidx.lifecycle.viewmodel.compose").get()
+                    libs.findLibrary("androidx.lifecycle.viewmodel.compose").get(),
                 )
                 add("implementation", libs.findLibrary("androidx.ui.tooling.preview").get())
                 add("debugImplementation", libs.findLibrary("androidx.ui.tooling").get())

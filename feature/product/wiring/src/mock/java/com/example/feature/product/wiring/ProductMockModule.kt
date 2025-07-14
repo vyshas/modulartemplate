@@ -19,7 +19,7 @@ object ProductMockModule {
     @Singleton
     fun provideProductRepository(
         @ApplicationContext context: Context,
-        mapper: ApiProductMapper
+        mapper: ApiProductMapper,
     ): ProductRepository {
         // Ensure we use application context, which is properly injected by Hilt
         return ProductRepositoryMockImpl(context.applicationContext, mapper)

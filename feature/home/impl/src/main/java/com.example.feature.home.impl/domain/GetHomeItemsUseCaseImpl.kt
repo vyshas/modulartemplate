@@ -7,7 +7,7 @@ import com.example.feature.home.api.domain.usecase.GetHomeItemsUseCase
 import javax.inject.Inject
 
 class GetHomeItemsUseCaseImpl @Inject constructor(
-    private val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository,
 ) : GetHomeItemsUseCase {
 
     override suspend fun getHomeItems(): DomainResult<List<HomeItem>> {

@@ -2,9 +2,9 @@ package com.example.feature.product.impl.data
 
 import com.example.feature.product.api.domain.model.Product
 import com.example.feature.product.api.domain.model.Rating
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.assertEquals
 
 /**
  * Tests for ApiProductMapper
@@ -31,7 +31,7 @@ class ApiProductMapperTest {
             description = "This is a test product description",
             category = "electronics",
             image = "https://example.com/image.jpg",
-            rating = apiRating
+            rating = apiRating,
         )
 
         // When
@@ -59,7 +59,7 @@ class ApiProductMapperTest {
             description = "Product with no ratings",
             category = "books",
             image = "https://example.com/book.jpg",
-            rating = apiRating
+            rating = apiRating,
         )
 
         // When
@@ -87,7 +87,7 @@ class ApiProductMapperTest {
             description = "A product with maximum rating",
             category = "premium",
             image = "https://example.com/premium.jpg",
-            rating = apiRating
+            rating = apiRating,
         )
 
         // When
@@ -115,7 +115,7 @@ class ApiProductMapperTest {
             description = "",
             category = "",
             image = "",
-            rating = apiRating
+            rating = apiRating,
         )
 
         // When
@@ -143,7 +143,7 @@ class ApiProductMapperTest {
             description = "Product with precise decimal values",
             category = "precision",
             image = "https://example.com/precise.jpg",
-            rating = apiRating
+            rating = apiRating,
         )
 
         // When
@@ -171,7 +171,7 @@ class ApiProductMapperTest {
             description = "Latest Samsung flagship smartphone with advanced camera system and S Pen",
             category = "smartphones",
             image = "https://images.samsung.com/galaxy-s23-ultra.jpg",
-            rating = apiRating
+            rating = apiRating,
         )
 
         // When
@@ -189,7 +189,7 @@ class ApiProductMapperTest {
                 "Rating rate should be preserved",
                 apiProduct.rating.rate,
                 rating.rate,
-                0.01
+                0.01,
             )
             assertEquals("Rating count should be preserved", apiProduct.rating.count, rating.count)
         }

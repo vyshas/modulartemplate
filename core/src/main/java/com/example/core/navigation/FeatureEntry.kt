@@ -20,4 +20,4 @@ interface FeatureEntry {
     fun route(): String
 
     fun getGraphResId(): Int
-} 
+}

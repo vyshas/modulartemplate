@@ -30,7 +30,7 @@ abstract class FeatureEntryActivity : AppCompatActivity() {
             id = containerId
             layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
+                FrameLayout.LayoutParams.MATCH_PARENT,
             )
         }
         setContentView(container)

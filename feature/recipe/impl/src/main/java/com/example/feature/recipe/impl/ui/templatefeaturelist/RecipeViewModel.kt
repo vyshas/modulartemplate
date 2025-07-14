@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     private val getRecipesUseCase: GetRecipesUseCase,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     private val _uiEffect = MutableSharedFlow<RecipeUiEffect>()
@@ -46,17 +46,17 @@ class RecipeViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = RecipeUiState.Loading
+            initialValue = RecipeUiState.Loading,
         )
 
     fun onIntent(intent: RecipeUiIntent) {
         when (intent) {
-            RecipeUiIntent.Fetchrecipes -> refresh()
-            is RecipeUiIntent.recipeClicked -> onrecipeClicked(intent.recipeId)
+            RecipeUiIntent.FetchRecipes -> refresh()
+            is RecipeUiIntent.RecipeClicked -> onRecipeClicked(intent.recipeId)
         }
     }
 
-    private fun onrecipeClicked(recipeId: Int) {
+    private fun onRecipeClicked(recipeId: Int) {
         viewModelScope.launch {
             _uiEffect.emit(RecipeUiEffect.NavigateToRecipeDetail(recipeId))
         }

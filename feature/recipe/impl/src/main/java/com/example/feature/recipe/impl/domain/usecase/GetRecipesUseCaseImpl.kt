@@ -7,7 +7,7 @@ import com.example.feature.recipe.api.domain.usecase.GetRecipesUseCase
 import javax.inject.Inject
 
 class GetRecipesUseCaseImpl @Inject constructor(
-    private val repository: RecipeRepository
+    private val repository: RecipeRepository,
 ) : GetRecipesUseCase {
 
     override suspend fun getrecipes(): DomainResult<List<Recipe>> {

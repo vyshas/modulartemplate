@@ -33,14 +33,14 @@ import com.example.feature.home.api.domain.model.HomeItem
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onItemClick: (HomeItem) -> Unit
+    onItemClick: (HomeItem) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     HomeScreenContent(
         uiState = uiState,
         onItemClick = onItemClick,
-        onRefresh = { viewModel.refresh() }
+        onRefresh = { viewModel.refresh() },
     )
 }
 
@@ -48,13 +48,13 @@ fun HomeScreen(
 fun HomeScreenContent(
     uiState: HomeUiState,
     onItemClick: (HomeItem) -> Unit,
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
 ) {
     when (uiState) {
         is HomeUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onRefresh
+                onRetry = onRefresh,
             )
         }
 
@@ -65,7 +65,7 @@ fun HomeScreenContent(
         is HomeUiState.Success -> {
             SuccessState(
                 items = uiState.items,
-                onItemClick = onItemClick
+                onItemClick = onItemClick,
             )
         }
     }
@@ -74,27 +74,27 @@ fun HomeScreenContent(
 @Composable
 private fun ErrorState(
     message: String,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = message,
                 color = MaterialTheme.colors.error,
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = onRetry,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             ) {
                 Text("Retry")
             }
@@ -106,19 +106,19 @@ private fun ErrorState(
 private fun LoadingState() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             CircularProgressIndicator(
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colors.primary,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Loading...",
                 style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -128,15 +128,15 @@ private fun LoadingState() {
 private fun EmptyState(onRefresh: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "No items available",
                 style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = onRefresh) {
@@ -154,23 +154,23 @@ fun HomeListItem(item: HomeItem, onClick: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .clickable { onClick() },
         elevation = 2.dp,
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = item.title,
                 style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             Text(
                 text = "ID: ${item.id}",
                 style = MaterialTheme.typography.caption,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -179,28 +179,28 @@ fun HomeListItem(item: HomeItem, onClick: () -> Unit) {
 @Composable
 private fun SuccessState(
     items: List<HomeItem>,
-    onItemClick: (HomeItem) -> Unit
+    onItemClick: (HomeItem) -> Unit,
 ) {
     if (items.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = "No items available",
                 style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     } else {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(items) { item ->
                 HomeListItem(
                     item = item,
-                    onClick = { onItemClick(item) }
+                    onClick = { onItemClick(item) },
                 )
             }
         }
@@ -213,13 +213,13 @@ fun HomeScreenPreviewSuccess() {
     val mockItems = listOf(
         HomeItem(1, "Preview Item 1"),
         HomeItem(2, "Preview Item 2"),
-        HomeItem(3, "Preview Item 3")
+        HomeItem(3, "Preview Item 3"),
     )
     Surface {
         HomeScreenContent(
             uiState = HomeUiState.Success(mockItems),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -231,7 +231,7 @@ fun HomeScreenPreviewEmpty() {
         HomeScreenContent(
             uiState = HomeUiState.Success(emptyList()),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -243,7 +243,7 @@ fun HomeScreenPreviewLoading() {
         HomeScreenContent(
             uiState = HomeUiState.Loading,
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -255,7 +255,7 @@ fun HomeScreenPreviewError() {
         HomeScreenContent(
             uiState = HomeUiState.Error("Something went wrong. Please check your internet connection."),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }

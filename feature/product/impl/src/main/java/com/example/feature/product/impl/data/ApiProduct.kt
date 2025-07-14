@@ -7,10 +7,10 @@ data class ApiProduct(
     val description: String,
     val category: String,
     val image: String,
-    val rating: ApiRating
+    val rating: ApiRating,
 )
 
 data class ApiRating(
     val rate: Double,
-    val count: Int
+    val count: Int,
 )

@@ -7,7 +7,7 @@ import com.example.feature.templatefeature.api.domain.usecase.GetTemplateFeature
 import javax.inject.Inject
 
 class GetTemplateFeaturesUseCaseImpl @Inject constructor(
-    private val repository: TemplateFeatureRepository
+    private val repository: TemplateFeatureRepository,
 ) : GetTemplateFeaturesUseCase {
 
     override suspend fun getTemplateFeatures(): DomainResult<List<TemplateFeature>> {
