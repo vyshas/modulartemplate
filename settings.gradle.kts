@@ -28,3 +28,9 @@ include(
     ":feature:product:demo"
 )
 include(":test-utils")
+
+// recipe Feature
+include(":feature:recipe:api")
+include(":feature:recipe:impl")
+include(":feature:recipe:wiring")
+include(":feature:recipe:demo")

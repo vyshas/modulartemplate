@@ -1,5 +1,6 @@
 package com.example.feature.product.wiring
 
+import com.example.core.network.GlobalRetrofit
 import com.example.feature.product.api.data.ProductRepository
 import com.example.feature.product.impl.data.ApiProductMapper
 import com.example.feature.product.impl.data.repository.ProductRepositoryImpl
@@ -18,7 +19,7 @@ object ProductProdModule {
     @Provides
     @Singleton
     fun provideProductApi(
-        retrofit: Retrofit
+        @GlobalRetrofit retrofit: Retrofit
     ): ProductApi {
         return retrofit.create(ProductApi::class.java)
     }

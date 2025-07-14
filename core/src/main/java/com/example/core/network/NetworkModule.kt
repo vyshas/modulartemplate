@@ -24,7 +24,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(
+    ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })
@@ -32,6 +33,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @GlobalRetrofit
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         moshi: Moshi,
