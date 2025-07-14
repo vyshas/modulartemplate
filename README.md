@@ -1,33 +1,5 @@
 # Android Modular Architecture Sample
 
-## 🚦 Code Style & Quality
-
-- **Formatting:** Enforced
-  by [Spotless](https://github.com/diffplug/spotless) + [ktlint](https://github.com/pinterest/ktlint)
-    - 4-space indentation, trailing commas, clean imports, spacing, and brace style matching Kotlin
-      conventions
-    - Wildcard imports are forbidden in main code (auto-fixable), but allowed in test files
-    - Blank lines, trailing whitespace, blank line grouping are auto-fixed
-    - For Compose code, @Composable functions may use PascalCase names (e.g. `RecipeScreen()`)
-- **Naming conventions:**
-    - Class, object, and data class names: `PascalCase`
-    - Function names: `camelCase` in regular code, `PascalCase` is allowed for `@Composable`
-    - Property and parameter names: `camelCase`
-    - Package names: all-lowercase
-    - Enum entries: `UPPER_SNAKE_CASE`
-    - **Naming convention errors (including function/class naming)** are not auto-fixed—manual
-      correction is required but violations are caught by CI
-- **Code quality:** [Detekt](https://detekt.dev/) runs with a team-friendly set of rules in [
-  `detekt.yml`](./detekt.yml). It enforces best practices, flagging complexity, import, and design
-  code smells.
-- **Running checks:**
-    - Format and check: `./gradlew spotlessApply && ./gradlew spotlessCheck`
-    - Static analysis: `./gradlew detekt`
-    - Generate a baseline for detekt (to ignore current code issues, if needed):
-      `./gradlew detektBaseline`
-
-See `.editorconfig` and `detekt.yml` for all details and rules.
-
 ## Modular Android Architecture · Feature Scaffolding
 
 ## 🚀 Instant Feature Module Creation
@@ -56,69 +28,163 @@ to [FEATURE_SCAFFOLDING.md](FEATURE_SCAFFOLDING.md).
 
 ## 🏗️ Architecture Overview
 
-The project follows a modular architecture pattern where each feature is isolated into its own module:
+This project demonstrates a modular Android application architecture using Kotlin, focusing on
+feature isolation and clean architecture principles. It showcases how to build scalable Android
+applications with proper separation of concerns.
 
-- **app**: Main application module containing the app shell and navigation
-- **core**: Common utilities and base classes
-- **feature/home**: Home feature module
-  - **api**: Public API for the home feature
-  - **impl**: Implementation of the home feature
-  - **wiring**: Dependency injection setup for the home feature
-  - **demo**: Standalone demo of the home feature
-- **feature/order**: Order feature module (similar structure)
+### **Key Features:**
 
----
-
-### 📦 Module Responsibilities
-
-#### API Module
-- Contains only interfaces and data models that other features can depend on
-- Defines the public contract for the feature (e.g. `HomeNavigator`, `HomeEntry`)
-- No implementation details
-
-#### Implementation Module
-- Implements interfaces defined in the API module
-- Contains all the feature's internal components (UI, ViewModels, Repositories)
-- Never accessed directly by other features
-
-#### Wiring Module
-- Provides dependency injection setup for the feature using Hilt
-- Binds APIs to their implementations
-- Only the app module depends on wiring modules
+- **Modular Architecture** with clear separation between features
+- **Clean Architecture** principles with domain, data, and UI layers
+- **Dependency Injection** using Hilt
+- **Feature-based modules** for better scalability and team collaboration
+- **Demo applications** for individual feature testing
+- **Consistent build configuration** across modules
+- **Mock and production variants** for testing
 
 ---
 
-## 🧩 Modular Architecture Diagram
+## 📂 Project Structure
+
+```
+app/                          # Main application module
+├── src/main/                # Application code
+└── build.gradle.kts         # App-level build configuration
+
+core/                        # Shared utilities and base classes
+├── src/main/                # Core utilities
+└── build.gradle.kts         # Core module configuration
+
+feature/                     # Feature modules
+├── home/                    # Home feature
+│   ├── api/                 # Feature contracts and domain models
+│   ├── impl/                # Feature implementation
+│   ├── wiring/              # Dependency injection
+│   └── demo/                # Standalone demo app
+├── product/                 # Product feature
+│   ├── api/
+│   ├── impl/
+│   ├── wiring/
+│   └── demo/
+└── order/                   # Order feature
+    ├── api/
+    ├── impl/
+    └── wiring/
+
+build-logic/                 # Custom Gradle plugins
+test-utils/                  # Shared testing utilities
+```
+
+---
+
+## 🔄 Module Dependencies
 
 ```mermaid
 graph TD
-  App["🟢 app"]
-  Core["🔧 core"]
-  HomeAPI["📦 feature/home/api"]
-  HomeImpl["🧩 feature/home/impl"]
-  HomeWiring["🧰 feature/home/wiring"]
-  HomeDemo["🎯 feature/home/demo"]
-  OrderAPI["📦 feature/order/api"]
-  OrderImpl["🧩 feature/order/impl"]
-  OrderWiring["🧰 feature/order/wiring"]
-  OrderDemo["🎯 feature/order/demo"]
-
   App --> HomeWiring
   App --> OrderWiring
+  App --> ProductWiring
   App --> Core
 
   HomeWiring --> HomeImpl
-  HomeWiring --> HomeAPI
+  HomeWiring --> HomeApi
+  HomeImpl --> HomeApi
+  HomeImpl --> Core
 
   OrderWiring --> OrderImpl
-  OrderWiring --> OrderAPI
+  OrderWiring --> OrderApi
+  OrderImpl --> OrderApi
+  OrderImpl --> Core
 
-  HomeImpl --> HomeAPI
-  OrderImpl --> OrderAPI
+  ProductWiring --> ProductImpl
+  ProductWiring --> ProductApi
+  ProductImpl --> ProductApi
+  ProductImpl --> Core
 
   HomeDemo --> HomeWiring
   OrderDemo --> OrderWiring
+  ProductDemo --> ProductWiring
 ```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Android Studio Arctic Fox or later
+- JDK 17
+- Android SDK 34
+
+### Build and Run
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd android-modular-architecture
+
+# Build the project
+./gradlew build
+
+# Run the main app
+./gradlew :app:installDebug
+
+# Run individual feature demos
+./gradlew :feature:home:demo:installDebug
+./gradlew :feature:product:demo:installDebug
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+./gradlew test
+
+# Run tests for specific feature
+./gradlew :feature:home:impl:testDebugUnitTest
+./gradlew :feature:product:impl:testDebugUnitTest
+```
+
+---
+
+## 📦 Module Types
+
+### **API Module**
+
+- Contains domain models, use cases, and contracts
+- Defines the public interface of the feature
+- No implementation details
+
+### **Implementation Module**
+
+- Contains the actual feature implementation
+- UI components, ViewModels, repositories
+- Depends on the API module
+
+### **Wiring Module**
+
+- Provides dependency injection setup
+- Hilt modules for production and mock variants
+- Binds interfaces to implementations
+
+### **Demo Module**
+
+- Standalone application for feature testing
+- Useful for isolated development and testing
+- Contains its own Application class and manifest
+
+---
+
+## 🔧 Custom Gradle Plugins
+
+The project uses custom Gradle plugins defined in `build-logic/` for consistent configuration:
+
+- `pluggo.feature.api` - Configuration for API modules
+- `pluggo.feature.impl` - Configuration for implementation modules
+- `pluggo.feature.wiring` - Configuration for wiring modules
+- `pluggo.feature.demo` - Configuration for demo applications
 
 ---
 
@@ -430,3 +496,33 @@ These plugins help maintain strict separation of concerns and enforce the archit
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+## 🚦 Code Style & Quality
+
+- **Formatting:** Enforced
+  by [Spotless](https://github.com/diffplug/spotless) + [ktlint](https://github.com/pinterest/ktlint)
+    - 4-space indentation, trailing commas, clean imports, spacing, and brace style matching Kotlin
+      conventions
+    - Wildcard imports are forbidden in main code (auto-fixable), but allowed in test files
+    - Blank lines, trailing whitespace, blank line grouping are auto-fixed
+    - For Compose code, @Composable functions may use PascalCase names (e.g. `RecipeScreen()`)
+- **Naming conventions:**
+    - Class, object, and data class names: `PascalCase`
+    - Function names: `camelCase` in regular code, `PascalCase` is allowed for `@Composable`
+    - Property and parameter names: `camelCase`
+    - Package names: all-lowercase
+    - Enum entries: `UPPER_SNAKE_CASE`
+    - **Naming convention errors (including function/class naming)** are not auto-fixed—manual
+      correction is required but violations are caught by CI
+- **Code quality:** [Detekt](https://detekt.dev/) runs with a team-friendly set of rules in [
+  `detekt.yml`](./detekt.yml). It enforces best practices, flagging complexity, import, and design
+  code smells.
+- **Running checks:**
+    - Format and check: `./gradlew spotlessApply && ./gradlew spotlessCheck`
+    - Static analysis: `./gradlew detekt`
+    - Generate a baseline for detekt (to ignore current code issues, if needed):
+      `./gradlew detektBaseline`
+
+See `.editorconfig` and `detekt.yml` for all details and rules.
