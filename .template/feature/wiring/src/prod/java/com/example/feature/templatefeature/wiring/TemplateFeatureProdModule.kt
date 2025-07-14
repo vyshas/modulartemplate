@@ -1,5 +1,6 @@
 package com.example.feature.templatefeature.wiring
 
+import com.example.core.network.GlobalRetrofit
 import com.example.feature.templatefeature.api.data.TemplateFeatureRepository
 import com.example.feature.templatefeature.impl.data.ApiTemplateFeatureMapper
 import com.example.feature.templatefeature.impl.data.repository.TemplateFeatureRepositoryImpl
@@ -18,7 +19,7 @@ object TemplateFeatureProdModule {
     @Provides
     @Singleton
     fun provideTemplateFeatureApi(
-        retrofit: Retrofit
+        @GlobalRetrofit retrofit: Retrofit
     ): TemplateFeatureApi {
         return retrofit.create(TemplateFeatureApi::class.java)
     }
