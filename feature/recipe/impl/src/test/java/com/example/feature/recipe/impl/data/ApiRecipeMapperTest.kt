@@ -1,7 +1,7 @@
 package com.example.feature.recipe.impl.data
 
-import org.junit.Before
 import org.junit.After
+import org.junit.Before
 
 class ApiRecipeMapperTest {
 

@@ -6,7 +6,7 @@ import com.example.feature.order.impl.data.api.OrderApi
 import javax.inject.Inject
 
 class OrderRepositoryImpl @Inject constructor(
-    private val api: OrderApi
+    private val api: OrderApi,
 ) : OrderRepository {
 
     override suspend fun getOrder(): Order {

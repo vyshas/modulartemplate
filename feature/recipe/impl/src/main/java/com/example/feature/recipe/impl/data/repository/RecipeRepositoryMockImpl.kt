@@ -13,7 +13,7 @@ import javax.inject.Inject
 class RecipeRepositoryMockImpl @Inject constructor(
     private val context: Context,
     private val mapper: ApiRecipeMapper,
-    private val moshi: Moshi
+    private val moshi: Moshi,
 ) : RecipeRepository {
 
     override suspend fun getRecipes(): DomainResult<List<Recipe>> {

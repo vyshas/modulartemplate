@@ -21,10 +21,10 @@ class HomeFragment : Fragment(), OnBackPressedHandler {
     private val viewModel: HomeViewModel by viewModels()
     private val navController by lazy { findNavController() }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -34,9 +34,9 @@ class HomeFragment : Fragment(), OnBackPressedHandler {
                         Bundle().apply {
                             putInt(
                                 HomeDetailViewModel.KEY_ITEM_ID,
-                                homeItem.id
+                                homeItem.id,
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -55,7 +55,7 @@ class HomeFragment : Fragment(), OnBackPressedHandler {
 @Composable
 fun HomeContent(
     viewModel: HomeViewModel,
-    onItemClick: (HomeItem) -> Unit
+    onItemClick: (HomeItem) -> Unit,
 ) {
     HomeScreen(viewModel = viewModel, onItemClick = onItemClick)
 }

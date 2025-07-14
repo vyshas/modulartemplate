@@ -21,7 +21,7 @@ import com.example.feature.home.api.HomeDestination
 @Composable
 fun OrderScreen(
     viewModel: OrderViewModel,
-    onNavigate: (HomeDestination) -> Unit
+    onNavigate: (HomeDestination) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -39,19 +39,19 @@ fun OrderScreen(
         uiState = uiState,
         onViewHomeClick = {
             viewModel.onIntent(OrderUiIntent.OnViewHomeDetailClicked)
-        }
+        },
     )
 }
 
 @Composable
 fun OrderScreenContent(
     uiState: OrderUiState,
-    onViewHomeClick: () -> Unit
+    onViewHomeClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         Text("Order Screen", style = MaterialTheme.typography.h4)
         Spacer(modifier = Modifier.height(24.dp))
@@ -78,11 +78,9 @@ fun OrderScreenContentPreview() {
         OrderScreenContent(
             uiState = OrderUiState(
                 order = com.example.feature.order.api.domain.model.Order(1, 99.99),
-                isLoading = false
+                isLoading = false,
             ),
-            onViewHomeClick = {}
+            onViewHomeClick = {},
         )
     }
 }
-
-

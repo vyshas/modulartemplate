@@ -34,7 +34,6 @@ class RecipeApiTest : ApiAbstract<RecipeApi>() {
 
         // Then
         assertRequestPath("/recipes?limit=10")
-
     }
 
     @Throws(IOException::class)

@@ -23,25 +23,25 @@ abstract class ProductModule {
     @Binds
     @Singleton
     abstract fun bindGetProductsUseCase(
-        impl: GetProductsUseCaseImpl
+        impl: GetProductsUseCaseImpl,
     ): GetProductsUseCase
 
     @Binds
     @IntoSet
     abstract fun bindProductEntry(
-        productEntryImpl: ProductEntryImpl
+        productEntryImpl: ProductEntryImpl,
     ): FeatureEntry
 
     @Binds
     @Singleton
     abstract fun bindProductNavigator(
-        impl: ProductNavigatorImpl
+        impl: ProductNavigatorImpl,
     ): ProductNavigator
 
     @Binds
     @Singleton
     abstract fun bindProductEntryAsProductEntry(
-        impl: ProductEntryImpl
+        impl: ProductEntryImpl,
     ): ProductEntry
 
     companion object {

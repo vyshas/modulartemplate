@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getHomeItemsUseCase: GetHomeItemsUseCase,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     private val refreshTrigger = MutableSharedFlow<Unit>()
@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = HomeUiState.Loading
+            initialValue = HomeUiState.Loading,
         )
 
     fun refresh() {

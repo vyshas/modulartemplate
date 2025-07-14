@@ -23,12 +23,12 @@ class HomeDetailActivity : AppCompatActivity() {
                                 HomeDetailViewModel.KEY_ITEM_ID,
                                 intent.getIntExtra(
                                     HomeDetailViewModel.KEY_ITEM_ID,
-                                    -1
-                                )
+                                    -1,
+                                ),
                             )
                         }
-                    }).commitNow()
-
+                    },
+                ).commitNow()
         }
     }
 

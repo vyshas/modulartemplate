@@ -6,7 +6,7 @@ import com.example.feature.order.api.domain.usecase.GetOrderDetailsUseCase
 import javax.inject.Inject
 
 class GetOrderDetailsUseCaseImpl @Inject constructor(
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
 ) : GetOrderDetailsUseCase {
 
     override suspend fun getOrder(): Order {

@@ -6,6 +6,6 @@ import android.content.Intent
 interface ProductNavigator {
     fun intentFor(
         context: Context,
-        destination: ProductDestination
+        destination: ProductDestination,
     ): Intent
 }

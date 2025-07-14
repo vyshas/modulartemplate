@@ -10,7 +10,7 @@ import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
-    private val api: HomeApi
+    private val api: HomeApi,
 ) : HomeRepository {
 
     // Simple in-memory cache

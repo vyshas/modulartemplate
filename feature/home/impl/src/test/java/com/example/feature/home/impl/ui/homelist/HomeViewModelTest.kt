@@ -110,7 +110,7 @@ class HomeViewModelTest {
 
         coEvery { getHomeItemsUseCase.getHomeItems() } returnsMany listOf(
             DomainResult.Success(homeItems1),
-            DomainResult.Success(homeItems2)
+            DomainResult.Success(homeItems2),
         )
 
         homeViewModel.uiState.test {

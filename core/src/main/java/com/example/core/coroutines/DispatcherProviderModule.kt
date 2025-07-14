@@ -12,6 +12,6 @@ abstract class DispatcherProviderModule {
     @Binds
     @Singleton
     abstract fun bindDispatcherProvider(
-        impl: StandardDispatcherProvider
+        impl: StandardDispatcherProvider,
     ): DispatcherProvider
 }

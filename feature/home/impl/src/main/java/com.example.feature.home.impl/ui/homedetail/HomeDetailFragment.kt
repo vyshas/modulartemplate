@@ -18,7 +18,7 @@ class HomeDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -36,10 +36,9 @@ class HomeDetailFragment : Fragment() {
                         } else {
                             requireActivity().onBackPressedDispatcher.onBackPressed()
                         }
-                    }
+                    },
                 )
             }
         }
     }
-
 }

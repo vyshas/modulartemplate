@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class TemplateFeatureRepositoryMockImpl @Inject constructor(
     private val context: Context,
-    private val mapper: ApiTemplateFeatureMapper
+    private val mapper: ApiTemplateFeatureMapper,
 ) : TemplateFeatureRepository {
 
     override suspend fun getTemplateFeatures(): DomainResult<List<TemplateFeature>> {

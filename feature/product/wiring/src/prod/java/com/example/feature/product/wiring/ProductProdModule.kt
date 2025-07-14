@@ -19,7 +19,7 @@ object ProductProdModule {
     @Provides
     @Singleton
     fun provideProductApi(
-        @GlobalRetrofit retrofit: Retrofit
+        @GlobalRetrofit retrofit: Retrofit,
     ): ProductApi {
         return retrofit.create(ProductApi::class.java)
     }
@@ -28,6 +28,6 @@ object ProductProdModule {
     @Singleton
     fun provideProductRepository(
         api: ProductApi,
-        mapper: ApiProductMapper
+        mapper: ApiProductMapper,
     ): ProductRepository = ProductRepositoryImpl(api, mapper)
 }

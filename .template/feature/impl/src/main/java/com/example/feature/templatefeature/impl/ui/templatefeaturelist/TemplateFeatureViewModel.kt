@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TemplateFeatureViewModel @Inject constructor(
     private val getTemplateFeaturesUseCase: GetTemplateFeaturesUseCase,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     private val _uiEffect = MutableSharedFlow<TemplateFeatureUiEffect>()
@@ -46,7 +46,7 @@ class TemplateFeatureViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = TemplateFeatureUiState.Loading
+            initialValue = TemplateFeatureUiState.Loading,
         )
 
     fun onIntent(intent: TemplateFeatureUiIntent) {

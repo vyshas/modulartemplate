@@ -23,25 +23,25 @@ abstract class OrderModule {
     @Binds
     @Singleton
     abstract fun bindGetOrderDetailsUseCase(
-        impl: GetOrderDetailsUseCaseImpl
+        impl: GetOrderDetailsUseCaseImpl,
     ): GetOrderDetailsUseCase
 
     @Binds
     @Singleton
     abstract fun bindOrderRepository(
-        impl: OrderRepositoryImpl
+        impl: OrderRepositoryImpl,
     ): OrderRepository
 
     @Binds
     @IntoSet
     abstract fun bindOrderFeatureEntry(
-        orderEntryImpl: OrderEntryImpl
+        orderEntryImpl: OrderEntryImpl,
     ): FeatureEntry
 
     @Binds
     @IntoSet
     abstract fun bindOrderTabEntry(
-        home: OrderEntryImpl
+        home: OrderEntryImpl,
     ): BottomNavEntry
 
     companion object {
@@ -49,4 +49,4 @@ abstract class OrderModule {
         @Singleton
         fun provideOrderApi(): OrderApi = OrderApi()
     }
-} 
+}

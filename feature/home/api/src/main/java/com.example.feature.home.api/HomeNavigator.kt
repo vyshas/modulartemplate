@@ -6,6 +6,6 @@ import android.content.Intent
 interface HomeNavigator {
     fun intentFor(
         context: Context,
-        destination: HomeDestination
+        destination: HomeDestination,
     ): Intent
 }

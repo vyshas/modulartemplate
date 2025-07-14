@@ -6,6 +6,6 @@ import android.content.Intent
 interface RecipeNavigator {
     fun intentFor(
         context: Context,
-        destination: RecipeDestination
+        destination: RecipeDestination,
     ): Intent
 }

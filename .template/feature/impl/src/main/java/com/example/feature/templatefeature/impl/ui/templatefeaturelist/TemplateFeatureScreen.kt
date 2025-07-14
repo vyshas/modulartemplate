@@ -31,12 +31,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.feature.templatefeature.api.domain.model.TemplateFeature
 import com.example.feature.templatefeature.api.domain.model.Rating
+import com.example.feature.templatefeature.api.domain.model.TemplateFeature
 
 @Composable
 fun TemplateFeatureScreen(
-    viewModel: TemplateFeatureViewModel
+    viewModel: TemplateFeatureViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -58,7 +58,7 @@ fun TemplateFeatureScreen(
     TemplateFeatureScreenContent(
         uiState = uiState,
         onItemClick = { templatefeature -> viewModel.onIntent(TemplateFeatureUiIntent.TemplateFeatureClicked(templatefeature.id)) },
-        onRefresh = { viewModel.onIntent(TemplateFeatureUiIntent.FetchTemplateFeatures) }
+        onRefresh = { viewModel.onIntent(TemplateFeatureUiIntent.FetchTemplateFeatures) },
     )
 }
 
@@ -66,13 +66,13 @@ fun TemplateFeatureScreen(
 fun TemplateFeatureScreenContent(
     uiState: TemplateFeatureUiState,
     onItemClick: (TemplateFeature) -> Unit,
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
 ) {
     when (uiState) {
         is TemplateFeatureUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onRefresh
+                onRetry = onRefresh,
             )
         }
 
@@ -83,7 +83,7 @@ fun TemplateFeatureScreenContent(
         is TemplateFeatureUiState.Success -> {
             SuccessState(
                 templatefeatures = uiState.templatefeatures,
-                onItemClick = onItemClick
+                onItemClick = onItemClick,
             )
         }
     }
@@ -92,27 +92,27 @@ fun TemplateFeatureScreenContent(
 @Composable
 private fun ErrorState(
     message: String,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = message,
                 color = MaterialTheme.colors.error,
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = onRetry,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             ) {
                 Text("Retry")
             }
@@ -124,19 +124,19 @@ private fun ErrorState(
 private fun LoadingState() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             CircularProgressIndicator(
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colors.primary,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Loading...",
                 style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -146,15 +146,15 @@ private fun LoadingState() {
 private fun EmptyState(onRefresh: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "No templatefeatures available",
                 style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = onRefresh) {
@@ -172,23 +172,23 @@ fun TemplateFeatureItem(templatefeature: TemplateFeature, onClick: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .clickable { onClick() },
         elevation = 2.dp,
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = templatefeature.title,
                 style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             Text(
                 text = "$${templatefeature.price}",
                 style = MaterialTheme.typography.caption,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -197,19 +197,19 @@ fun TemplateFeatureItem(templatefeature: TemplateFeature, onClick: () -> Unit) {
 @Composable
 private fun SuccessState(
     templatefeatures: List<TemplateFeature>,
-    onItemClick: (TemplateFeature) -> Unit
+    onItemClick: (TemplateFeature) -> Unit,
 ) {
     if (templatefeatures.isEmpty()) {
         EmptyState(onRefresh = { /* TODO: Handle refresh for empty state */ })
     } else {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(templatefeatures) { templatefeature ->
                 TemplateFeatureItem(
                     templatefeature = templatefeature,
-                    onClick = { onItemClick(templatefeature) }
+                    onClick = { onItemClick(templatefeature) },
                 )
             }
         }
@@ -227,7 +227,7 @@ fun TemplateFeatureScreenPreviewSuccess() {
             "Desc 1",
             "Cat 1",
             "",
-            Rating(4.0, 100)
+            Rating(4.0, 100),
         ),
         TemplateFeature(
             2,
@@ -236,14 +236,14 @@ fun TemplateFeatureScreenPreviewSuccess() {
             "Desc 2",
             "Cat 2",
             "",
-            Rating(3.5, 50)
-        )
+            Rating(3.5, 50),
+        ),
     )
     Surface {
         TemplateFeatureScreenContent(
             uiState = TemplateFeatureUiState.Success(mockTemplateFeatures),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -255,7 +255,7 @@ fun TemplateFeatureScreenPreviewEmpty() {
         TemplateFeatureScreenContent(
             uiState = TemplateFeatureUiState.Success(emptyList()),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -267,7 +267,7 @@ fun TemplateFeatureScreenPreviewLoading() {
         TemplateFeatureScreenContent(
             uiState = TemplateFeatureUiState.Loading,
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -279,7 +279,7 @@ fun TemplateFeatureScreenPreviewError() {
         TemplateFeatureScreenContent(
             uiState = TemplateFeatureUiState.Error("Something went wrong. Please check your internet connection."),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }

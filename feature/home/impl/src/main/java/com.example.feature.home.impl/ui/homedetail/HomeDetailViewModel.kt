@@ -26,7 +26,7 @@ import javax.inject.Inject
 class HomeDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getHomeItemByIdUseCase: GetHomeItemByIdUseCase,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     companion object {
@@ -70,7 +70,7 @@ class HomeDetailViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = HomeDetailUiState.Loading
+            initialValue = HomeDetailUiState.Loading,
         )
 
     fun retry() {
@@ -85,4 +85,3 @@ sealed interface HomeDetailUiState {
     data class Success(val item: HomeItem) : HomeDetailUiState
     data class Error(val message: String) : HomeDetailUiState
 }
-

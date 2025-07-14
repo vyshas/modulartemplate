@@ -7,7 +7,7 @@ import com.example.feature.home.api.domain.usecase.GetHomeItemByIdUseCase
 import javax.inject.Inject
 
 class GetHomeItemByIdUseCaseImpl @Inject constructor(
-    private val repository: HomeRepository
+    private val repository: HomeRepository,
 ) : GetHomeItemByIdUseCase {
 
     override suspend fun invoke(id: Int): DomainResult<HomeItem> {

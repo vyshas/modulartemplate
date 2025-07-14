@@ -6,6 +6,6 @@ import android.content.Intent
 interface TemplateFeatureNavigator {
     fun intentFor(
         context: Context,
-        destination: TemplateFeatureDestination
+        destination: TemplateFeatureDestination,
     ): Intent
 }

@@ -28,7 +28,7 @@ class HomeRepositoryImplTest {
         // Given
         val apiHomeItems = listOf(
             ApiHomeItem(id = 1, title = "Item 1"),
-            ApiHomeItem(id = 2, title = "Item 2")
+            ApiHomeItem(id = 2, title = "Item 2"),
         )
         coEvery { homeApi.fetchHomeItems() } returns apiHomeItems
 
@@ -60,7 +60,7 @@ class HomeRepositoryImplTest {
         // Given
         val homeItems = listOf(
             HomeItem(id = 1, title = "Cached Item 1"),
-            HomeItem(id = 2, title = "Cached Item 2")
+            HomeItem(id = 2, title = "Cached Item 2"),
         )
 
         // When

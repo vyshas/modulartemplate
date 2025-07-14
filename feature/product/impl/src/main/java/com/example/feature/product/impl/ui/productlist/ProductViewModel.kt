@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel @Inject constructor(
     private val getProductsUseCase: GetProductsUseCase,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 
     private val _uiEffect = MutableSharedFlow<ProductUiEffect>()
@@ -46,7 +46,7 @@ class ProductViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = ProductUiState.Loading
+            initialValue = ProductUiState.Loading,
         )
 
     fun onIntent(intent: ProductUiIntent) {

@@ -64,8 +64,8 @@ abstract class ApiAbstract<T> {
                 MoshiConverterFactory.create(
                     Moshi.Builder()
                         .add(KotlinJsonAdapterFactory())
-                        .build()
-                )
+                        .build(),
+                ),
             )
             .build()
             .create(clazz)

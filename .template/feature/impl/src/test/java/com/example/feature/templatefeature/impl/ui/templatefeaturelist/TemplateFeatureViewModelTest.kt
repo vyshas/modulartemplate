@@ -2,8 +2,6 @@ package com.example.feature.templatefeature.impl.ui.templatefeaturelist
 
 import app.cash.turbine.test
 import com.example.core.domain.DomainResult
-import com.example.feature.templatefeature.api.domain.model.TemplateFeature
-import com.example.feature.templatefeature.api.domain.model.Rating
 import com.example.feature.templatefeature.api.domain.usecase.GetTemplateFeaturesUseCase
 import com.example.testutils.TestDispatcherProvider
 import io.mockk.coEvery
@@ -11,12 +9,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -52,5 +48,4 @@ class TemplateFeatureViewModelTest {
             cancelAndConsumeRemainingEvents()
         }
     }
-
 }

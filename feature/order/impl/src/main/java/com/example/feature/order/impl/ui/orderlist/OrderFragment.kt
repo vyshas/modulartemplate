@@ -22,7 +22,7 @@ class OrderFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -31,10 +31,10 @@ class OrderFragment : Fragment() {
                     onNavigate = { destination ->
                         val intent = homeNavigator.intentFor(
                             context = requireContext(),
-                            destination = destination
+                            destination = destination,
                         )
                         startActivity(intent)
-                    }
+                    },
                 )
             }
         }

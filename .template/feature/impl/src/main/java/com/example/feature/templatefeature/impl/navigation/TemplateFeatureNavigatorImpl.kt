@@ -9,7 +9,7 @@ import javax.inject.Inject
 class TemplateFeatureNavigatorImpl @Inject constructor() : TemplateFeatureNavigator {
     override fun intentFor(
         context: Context,
-        destination: TemplateFeatureDestination
+        destination: TemplateFeatureDestination,
     ): Intent {
         // TODO: Properly route to a templatefeature detail/activity if needed
         return Intent()

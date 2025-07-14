@@ -86,4 +86,7 @@ dependencies {
     api(libs.okhttp)
     api(libs.okhttp.logging.interceptor)
     implementation(libs.kotlin.reflect)
+
+    // Logging
+    api(libs.timber)
 }

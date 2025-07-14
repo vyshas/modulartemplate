@@ -1,15 +1,15 @@
 package com.example.feature.templatefeature.impl.data.repository
 
 import com.example.core.domain.DomainResult
-import com.example.feature.templatefeature.api.domain.model.TemplateFeature
 import com.example.feature.templatefeature.api.data.TemplateFeatureRepository
+import com.example.feature.templatefeature.api.domain.model.TemplateFeature
 import com.example.feature.templatefeature.impl.data.ApiTemplateFeatureMapper
 import com.example.feature.templatefeature.impl.remote.TemplateFeatureApi
 import javax.inject.Inject
 
 class TemplateFeatureRepositoryImpl @Inject constructor(
     private val api: TemplateFeatureApi,
-    private val mapper: ApiTemplateFeatureMapper
+    private val mapper: ApiTemplateFeatureMapper,
 ) : TemplateFeatureRepository {
 
     override suspend fun getTemplateFeatures(): DomainResult<List<TemplateFeature>> {

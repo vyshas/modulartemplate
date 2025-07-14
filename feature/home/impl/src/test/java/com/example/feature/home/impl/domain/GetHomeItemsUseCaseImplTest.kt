@@ -28,7 +28,7 @@ class GetHomeItemsUseCaseImplTest {
             // Given
             val homeItems = listOf(
                 HomeItem(id = 1, title = "Item 1"),
-                HomeItem(id = 2, title = "Item 2")
+                HomeItem(id = 2, title = "Item 2"),
             )
             coEvery { homeRepository.getHomeItems() } returns DomainResult.Success(homeItems)
             coEvery { homeRepository.cacheItems(any()) } returns Unit // Mock cacheItems

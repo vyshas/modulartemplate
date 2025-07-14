@@ -36,7 +36,7 @@ import com.example.feature.product.api.domain.model.Rating
 
 @Composable
 fun ProductScreen(
-    viewModel: ProductViewModel
+    viewModel: ProductViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -58,7 +58,7 @@ fun ProductScreen(
     ProductScreenContent(
         uiState = uiState,
         onItemClick = { product -> viewModel.onIntent(ProductUiIntent.ProductClicked(product.id)) },
-        onRefresh = { viewModel.onIntent(ProductUiIntent.FetchProducts) }
+        onRefresh = { viewModel.onIntent(ProductUiIntent.FetchProducts) },
     )
 }
 
@@ -66,13 +66,13 @@ fun ProductScreen(
 fun ProductScreenContent(
     uiState: ProductUiState,
     onItemClick: (Product) -> Unit,
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
 ) {
     when (uiState) {
         is ProductUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onRefresh
+                onRetry = onRefresh,
             )
         }
 
@@ -83,7 +83,7 @@ fun ProductScreenContent(
         is ProductUiState.Success -> {
             SuccessState(
                 products = uiState.products,
-                onItemClick = onItemClick
+                onItemClick = onItemClick,
             )
         }
     }
@@ -92,27 +92,27 @@ fun ProductScreenContent(
 @Composable
 private fun ErrorState(
     message: String,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = message,
                 color = MaterialTheme.colors.error,
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = onRetry,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                modifier = Modifier.padding(horizontal = 32.dp),
             ) {
                 Text("Retry")
             }
@@ -124,19 +124,19 @@ private fun ErrorState(
 private fun LoadingState() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             CircularProgressIndicator(
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colors.primary,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Loading...",
                 style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -146,15 +146,15 @@ private fun LoadingState() {
 private fun EmptyState(onRefresh: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "No products available",
                 style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = onRefresh) {
@@ -172,23 +172,23 @@ fun ProductItem(product: Product, onClick: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .clickable { onClick() },
         elevation = 2.dp,
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = product.title,
                 style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             Text(
                 text = "$${product.price}",
                 style = MaterialTheme.typography.caption,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -197,19 +197,19 @@ fun ProductItem(product: Product, onClick: () -> Unit) {
 @Composable
 private fun SuccessState(
     products: List<Product>,
-    onItemClick: (Product) -> Unit
+    onItemClick: (Product) -> Unit,
 ) {
     if (products.isEmpty()) {
         EmptyState(onRefresh = { /* TODO: Handle refresh for empty state */ })
     } else {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(products) { product ->
                 ProductItem(
                     product = product,
-                    onClick = { onItemClick(product) }
+                    onClick = { onItemClick(product) },
                 )
             }
         }
@@ -227,7 +227,7 @@ fun ProductScreenPreviewSuccess() {
             "Desc 1",
             "Cat 1",
             "",
-            Rating(4.0, 100)
+            Rating(4.0, 100),
         ),
         Product(
             2,
@@ -236,14 +236,14 @@ fun ProductScreenPreviewSuccess() {
             "Desc 2",
             "Cat 2",
             "",
-            Rating(3.5, 50)
-        )
+            Rating(3.5, 50),
+        ),
     )
     Surface {
         ProductScreenContent(
             uiState = ProductUiState.Success(mockProducts),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -255,7 +255,7 @@ fun ProductScreenPreviewEmpty() {
         ProductScreenContent(
             uiState = ProductUiState.Success(emptyList()),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -267,7 +267,7 @@ fun ProductScreenPreviewLoading() {
         ProductScreenContent(
             uiState = ProductUiState.Loading,
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }
@@ -279,7 +279,7 @@ fun ProductScreenPreviewError() {
         ProductScreenContent(
             uiState = ProductUiState.Error("Something went wrong. Please check your internet connection."),
             onItemClick = {},
-            onRefresh = {}
+            onRefresh = {},
         )
     }
 }

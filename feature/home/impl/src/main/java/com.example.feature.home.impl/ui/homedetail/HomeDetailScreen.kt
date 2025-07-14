@@ -41,7 +41,7 @@ import com.example.feature.home.api.domain.model.HomeItem
 @Composable
 fun HomeDetailScreen(
     viewModel: HomeDetailViewModel,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -66,14 +66,14 @@ fun HomeDetailScreen(
                                 (uiState as HomeDetailUiState.Success).item.title
 
                             else -> "Details"
-                        }
+                        },
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
                         )
                     }
                 },
@@ -82,28 +82,28 @@ fun HomeDetailScreen(
                         IconButton(
                             onClick = {
                                 viewModel.retry()
-                            }
+                            },
                         ) {
                             Icon(
                                 Icons.Default.Refresh,
-                                contentDescription = "Retry"
+                                contentDescription = "Retry",
                             )
                         }
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
         ) {
             HomeDetailScreenContent(
                 uiState = uiState,
                 onRetry = {
                     viewModel.retry()
-                }
+                },
             )
         }
     }
@@ -112,7 +112,7 @@ fun HomeDetailScreen(
 @Composable
 fun HomeDetailScreenContent(
     uiState: HomeDetailUiState,
-    onRetry: () -> Unit = {}
+    onRetry: () -> Unit = {},
 ) {
     when (uiState) {
         is HomeDetailUiState.Success -> {
@@ -122,7 +122,7 @@ fun HomeDetailScreenContent(
         is HomeDetailUiState.Error -> {
             ErrorContent(
                 message = uiState.message,
-                onRetry = onRetry
+                onRetry = onRetry,
             )
         }
 
@@ -138,35 +138,35 @@ private fun SuccessContent(item: HomeItem) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             elevation = 4.dp,
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
         ) {
             Column(
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier.padding(20.dp),
             ) {
                 Text(
                     text = "Home Item Details",
                     style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.primary
+                    color = MaterialTheme.colors.primary,
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 DetailRow(
                     label = "ID",
-                    value = item.id.toString()
+                    value = item.id.toString(),
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 DetailRow(
                     label = "Title",
-                    value = item.title
+                    value = item.title,
                 )
             }
         }
@@ -177,15 +177,15 @@ private fun SuccessContent(item: HomeItem) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             elevation = 2.dp,
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             ) {
                 Text(
                     text = "Additional Information",
                     style = MaterialTheme.typography.subtitle1,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -193,7 +193,7 @@ private fun SuccessContent(item: HomeItem) {
                 Text(
                     text = "This is where additional details about the home item would be displayed.",
                     style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
                 )
             }
         }
@@ -203,14 +203,14 @@ private fun SuccessContent(item: HomeItem) {
 @Composable
 private fun DetailRow(
     label: String,
-    value: String
+    value: String,
 ) {
     Column {
         Text(
             text = label,
             style = MaterialTheme.typography.caption,
             color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -218,14 +218,14 @@ private fun DetailRow(
         Text(
             text = value,
             style = MaterialTheme.typography.body1,
-            color = MaterialTheme.colors.onSurface
+            color = MaterialTheme.colors.onSurface,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Divider(
             color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
-            thickness = 0.5.dp
+            thickness = 0.5.dp,
         )
     }
 }
@@ -233,22 +233,22 @@ private fun DetailRow(
 @Composable
 private fun ErrorContent(
     message: String,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(32.dp)
+            modifier = Modifier.padding(32.dp),
         ) {
             Text(
                 text = "Oops! Something went wrong",
                 style = MaterialTheme.typography.h6,
                 color = MaterialTheme.colors.error,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -257,14 +257,14 @@ private fun ErrorContent(
                 text = message,
                 style = MaterialTheme.typography.body2,
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = onRetry,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
             ) {
                 Text("Try Again")
             }
@@ -276,14 +276,14 @@ private fun ErrorContent(
 private fun LoadingContent() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             CircularProgressIndicator(
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colors.primary,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -291,7 +291,7 @@ private fun LoadingContent() {
             Text(
                 text = "Loading details...",
                 style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
             )
         }
     }
@@ -302,12 +302,12 @@ private fun LoadingContent() {
 fun HomeDetailScreenPreviewSuccess() {
     val mockItem = HomeItem(
         id = 1,
-        title = "Beautiful Modern Home"
+        title = "Beautiful Modern Home",
     )
     MaterialTheme {
         HomeDetailScreenContent(
             uiState = HomeDetailUiState.Success(mockItem),
-            onRetry = {}
+            onRetry = {},
         )
     }
 }
@@ -318,7 +318,7 @@ fun HomeDetailScreenPreviewError() {
     MaterialTheme {
         HomeDetailScreenContent(
             uiState = HomeDetailUiState.Error("Failed to load home details. Please check your internet connection."),
-            onRetry = {}
+            onRetry = {},
         )
     }
 }
@@ -329,7 +329,7 @@ fun HomeDetailScreenPreviewLoading() {
     MaterialTheme {
         HomeDetailScreenContent(
             uiState = HomeDetailUiState.Loading,
-            onRetry = {}
+            onRetry = {},
         )
     }
 }
