@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 
 class EmptyScreenFragment : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         return TextView(requireContext()).apply {
             text = context.getString(R.string.no_bottom_navigation_defined)
@@ -19,7 +21,7 @@ class EmptyScreenFragment : Fragment() {
             setPadding(16, 16, 16, 16)
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
+                ViewGroup.LayoutParams.MATCH_PARENT,
             )
         }
     }
