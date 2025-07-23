@@ -40,6 +40,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showEmptyScreen() {
+        val transaction = supportFragmentManager.beginTransaction()
+        val fragment = EmptyScreenFragment()
+        transaction.replace(R.id.fragment_container, fragment, "empty_screen")
+        transaction.commitNowAllowingStateLoss()
+    }
+
     private fun setupBottomNavigation() {
         val sortedTabs = bottomNavEntries.sortedBy { it.bottomNavPosition() }
         binding.bottomNav.menu.clear()
