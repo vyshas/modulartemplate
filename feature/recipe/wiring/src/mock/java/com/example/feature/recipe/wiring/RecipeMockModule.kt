@@ -4,7 +4,6 @@ import android.content.Context
 import com.example.feature.recipe.api.data.RecipeRepository
 import com.example.feature.recipe.impl.data.ApiRecipeMapper
 import com.example.feature.recipe.impl.data.repository.RecipeRepositoryMockImpl
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,9 +20,8 @@ object RecipeMockModule {
     fun provideRecipeRepository(
         @ApplicationContext context: Context,
         mapper: ApiRecipeMapper,
-        moshi: Moshi,
     ): RecipeRepository {
         // Ensure we use application context, which is properly injected by Hilt
-        return RecipeRepositoryMockImpl(context.applicationContext, mapper, moshi)
+        return RecipeRepositoryMockImpl(context.applicationContext, mapper)
     }
 }
