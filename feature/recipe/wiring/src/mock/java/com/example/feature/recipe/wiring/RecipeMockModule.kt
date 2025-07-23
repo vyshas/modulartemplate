@@ -20,10 +20,9 @@ object RecipeMockModule {
     @Singleton
     fun provideRecipeRepository(
         @ApplicationContext context: Context,
-        mapper: ApiRecipeMapper,
-        moshi: Moshi,
+        mapper: ApiRecipeMapper
     ): RecipeRepository {
         // Ensure we use application context, which is properly injected by Hilt
-        return RecipeRepositoryMockImpl(context.applicationContext, mapper, moshi)
+        return RecipeRepositoryMockImpl(context.applicationContext, mapper)
     }
 }

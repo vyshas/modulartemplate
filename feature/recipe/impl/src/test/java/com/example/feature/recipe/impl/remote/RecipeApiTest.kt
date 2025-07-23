@@ -27,7 +27,7 @@ class RecipeApiTest : ApiAbstract<RecipeApi>() {
     @Test
     fun `test getRecipes request path is correct`() = runBlocking {
         // Given
-        enqueueResponse("/recipes.json")
+        enqueueResponse("recipes.json")
 
         // When
         apiService.getRecipes()
@@ -40,7 +40,7 @@ class RecipeApiTest : ApiAbstract<RecipeApi>() {
     @Test
     fun `test getRecipes returns list of recipes`() = runBlocking {
         // Given
-        enqueueResponse("/recipes.json")
+        enqueueResponse("recipes.json")
 
         // When
         val response = apiService.getRecipes()
