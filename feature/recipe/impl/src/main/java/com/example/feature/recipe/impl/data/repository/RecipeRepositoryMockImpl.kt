@@ -11,14 +11,14 @@ import javax.inject.Inject
 
 class RecipeRepositoryMockImpl @Inject constructor(
     private val context: Context,
-    private val mapper: ApiRecipeMapper
+    private val mapper: ApiRecipeMapper,
 ) : RecipeRepository {
 
     override suspend fun getRecipes(): DomainResult<List<Recipe>> {
         return try {
             val response = parseJsonFromAssets<ApiRecipeListResponse>(
                 context,
-                "recipe_mock.json"
+                "recipe_mock.json",
             )
             val recipes: List<Recipe> = response?.let { mapper.map(it) } ?: emptyList()
             DomainResult.Success(recipes)
