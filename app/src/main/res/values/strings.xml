@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Your App Name</string>
+    <string name="no_bottom_navigation_defined">No bottom navigation defined</string>
 </resources>
