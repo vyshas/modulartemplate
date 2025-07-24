@@ -40,7 +40,7 @@ class RecipeViewModelTest {
     @Test
     fun `initial uiState is Loading`() = runTest(testDispatcher) {
         // Given
-        coEvery { getrecipesUseCase.getrecipes() } returns DomainResult.Success(emptyList())
+        coEvery { getrecipesUseCase.getRecipes() } returns DomainResult.Success(emptyList())
 
         // When & Then
         recipeViewModel.uiState.test {

@@ -8,5 +8,6 @@ interface RecipeApi {
     @GET("recipes")
     suspend fun getRecipes(
         @Query("limit") limit: Int = 10,
+        @Query("skip") skip: Int = 0,
     ): ApiRecipeListResponse
 }

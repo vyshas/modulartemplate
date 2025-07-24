@@ -47,6 +47,6 @@ android {
 dependencies {
     implementation(project(":feature:recipe:api"))
     implementation(project(":core"))
-
+    implementation(libs.androidx.paging.runtime)
     testImplementation(project(":test-utils"))
 }

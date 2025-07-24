@@ -33,6 +33,8 @@ hamcrest = "2.2"
 timber = "5.0.1"
 spotless = "6.25.0"
 detekt = "1.23.6"
+paging = "3.2.1"
+pagingCommonAndroid = "3.3.6"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -112,3 +114,7 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 
 # Logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+# Paging
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
+androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }

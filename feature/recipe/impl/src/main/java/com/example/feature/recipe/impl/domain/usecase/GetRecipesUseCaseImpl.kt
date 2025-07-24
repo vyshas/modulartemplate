@@ -10,7 +10,7 @@ class GetRecipesUseCaseImpl @Inject constructor(
     private val repository: RecipeRepository,
 ) : GetRecipesUseCase {
 
-    override suspend fun getrecipes(): DomainResult<List<Recipe>> {
+    override suspend fun getRecipes(): DomainResult<List<Recipe>> {
         return repository.getRecipes()
     }
 }

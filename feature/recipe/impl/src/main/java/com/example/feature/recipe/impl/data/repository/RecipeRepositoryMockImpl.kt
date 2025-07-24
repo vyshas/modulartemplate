@@ -1,12 +1,14 @@
 package com.example.feature.recipe.impl.data.repository
 
 import android.content.Context
+import androidx.paging.PagingData
 import com.example.core.domain.DomainResult
 import com.example.core.network.parseJsonFromAssets
 import com.example.feature.recipe.api.data.RecipeRepository
 import com.example.feature.recipe.api.domain.model.Recipe
 import com.example.feature.recipe.impl.data.ApiRecipeListResponse
 import com.example.feature.recipe.impl.data.ApiRecipeMapper
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RecipeRepositoryMockImpl @Inject constructor(
@@ -25,5 +27,9 @@ class RecipeRepositoryMockImpl @Inject constructor(
         } catch (e: Exception) {
             DomainResult.Error("Failed to load mock recipes: ${e.message}")
         }
+    }
+
+    override fun getPagedRecipes(): Flow<PagingData<Recipe>> {
+        TODO("Not yet implemented")
     }
 }

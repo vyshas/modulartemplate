@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     private val getRecipesUseCase: GetRecipesUseCase,
-    private val dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
     private val _uiEffect = MutableSharedFlow<RecipeUiEffect>()
@@ -37,7 +37,7 @@ class RecipeViewModel @Inject constructor(
         .flatMapLatest {
             flow {
                 emit(RecipeUiState.Loading)
-                when (val result = getRecipesUseCase.getrecipes()) {
+                when (val result = getRecipesUseCase.getRecipes()) {
                     is DomainResult.Success -> emit(RecipeUiState.Success(result.data))
                     is DomainResult.Error -> emit(RecipeUiState.Error(result.message))
                     DomainResult.NetworkError -> emit(RecipeUiState.Error("Network error"))
@@ -48,6 +48,18 @@ class RecipeViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = RecipeUiState.Loading,
         )
+
+    /*    @OptIn(ExperimentalCoroutinesApi::class)
+        val uiState: StateFlow<PagingData<Recipe>> = refreshTrigger
+            .onStart { emit(Unit) } // Auto-trigger on start
+            .flatMapLatest {
+                getPagedRecipesUseCase.getPagedRecipes()
+            }.cachedIn(viewModelScope)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = PagingData.empty(),
+            )*/
 
     fun onIntent(intent: RecipeUiIntent) {
         when (intent) {
