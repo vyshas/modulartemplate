@@ -38,6 +38,12 @@ class FeatureImplConventionPlugin : Plugin<Project> {
                     compose = true
                 }
 
+                testOptions {
+                    unitTests {
+                        isIncludeAndroidResources = true
+                    }
+                }
+
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
                 composeOptions {
@@ -96,6 +102,7 @@ class FeatureImplConventionPlugin : Plugin<Project> {
                 add("testImplementation", libs.findLibrary("mockk.android").get())
                 add("testImplementation", libs.findLibrary("kotlinx.coroutines.test").get())
                 add("testImplementation", libs.findLibrary("turbine").get())
+                add("testImplementation", libs.findLibrary("robolectric").get())
 
                 // Network
                 add("implementation", libs.findLibrary("retrofit").get())
