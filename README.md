@@ -414,15 +414,8 @@ graph LR
     HomeImpl["home:impl"]
   end
 
-  OrderImpl ==>|depends on| HomeApi
-  OrderApi <==|depends on| HomeImpl
-  
-  classDef api fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-  classDef impl fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
-  class OrderApi api;
-  class HomeApi api;
-  class OrderImpl impl;
-  class HomeImpl impl;
+  OrderImpl -->|depends on| HomeApi
+  HomeImpl -->|depends on| OrderApi
 ```
 
 Because `orders:impl` depends on `home:api` (and vice-versa), and the `api` modules do not depend on each other's implementations, the compiler is happy, builds can be parallelized, and features remain completely isolated.
