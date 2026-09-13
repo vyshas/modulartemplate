@@ -151,6 +151,16 @@ cd android-modular-architecture
 
 ## 📦 Module Types
 
+Here is how the modules within a single feature depend on each other:
+
+```mermaid
+graph TD
+  Demo["demo"] --> Wiring["wiring"]
+  Wiring --> Impl["impl"]
+  Wiring --> Api["api"]
+  Impl --> Api["api"]
+```
+
 ### **API Module**
 
 - Contains domain models, use cases, and contracts
@@ -278,15 +288,19 @@ val itemId = savedStateHandle.get<Int>("itemId")
 
 ```mermaid
 sequenceDiagram
-  participant HomeFeature
-  participant AppModule
-  participant OrderFeature
+  autonumber
+  participant Home as Home Feature<br/>(home:impl)
+  participant OrderApi as Order API<br/>(orders:api)
+  participant OrderImpl as Order Feature<br/>(orders:impl)
 
-  HomeFeature->>AppModule: Inject OrderNavigator
-  AppModule->>OrderFeature: Provides OrderNavigatorImpl
-  HomeFeature->>OrderFeature: startActivity(intentFor(OrderDestination.ViewOrder))
-  OrderFeature->>OrderViewModel: Resolve orderId via SavedStateHandle
-  OrderViewModel->>OrderRepository: Fetch order details from cache/session
+  Note over Home,OrderApi: Home injects OrderNavigator from orders:api
+  Home->>OrderApi: navigator.intentFor(ViewOrder(id = 123))
+  OrderApi-->>Home: Returns Intent targeting OrderActivity
+  
+  Home->>OrderImpl: context.startActivity(intent)
+  Note over OrderImpl: System launches OrderActivity
+  
+  OrderImpl->>OrderImpl: OrderViewModel reads id 123 via SavedStateHandle
 ```
 
 ---
@@ -360,9 +374,58 @@ abstract fun bindHomeEntryAsNavigator(homeEntryImpl: HomeEntryImpl): HomeEntry
 * The `app` module depends on all wiring modules and wires them together
 
 ```
-Feature A (impl) → Feature A (api) → Feature B (api) → Feature B (impl)
+Feature A (impl) → Feature B (api)
 App Module → All Wiring Modules → All Implementations
 ```
+
+Here is a visual representation of how one feature (e.g. Orders) depends on another (e.g. Home) for navigation:
+
+```mermaid
+graph TD
+  subgraph Orders Feature
+    OrderImpl["orders:impl"]
+  end
+  
+  subgraph Home Feature
+    HomeApi["home:api (HomeNavigator)"]
+    HomeImpl["home:impl (HomeNavigatorImpl)"]
+  end
+
+  OrderImpl -->|depends on| HomeApi
+  HomeImpl -.->|implements| HomeApi
+  OrderImpl -.-x|❌ NEVER depends on| HomeImpl
+```
+
+### 🚫 Preventing Cyclic Dependencies
+
+This strict separation completely eliminates the classic "circular dependency" problem between features. 
+
+If **Orders** needs to navigate to **Home**, and **Home** also needs to navigate to **Orders**, a monolithic or simple modular app would crash with a circular dependency error. But with API modules, the dependency graph remains acyclic:
+
+```mermaid
+graph LR
+  subgraph Orders Feature
+    OrderImpl["orders:impl"]
+    OrderApi["orders:api"]
+  end
+  
+  subgraph Home Feature
+    HomeApi["home:api"]
+    HomeImpl["home:impl"]
+  end
+
+  OrderImpl ==>|depends on| HomeApi
+  OrderApi <==|depends on| HomeImpl
+  
+  classDef api fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+  classDef impl fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+  class OrderApi api;
+  class HomeApi api;
+  class OrderImpl impl;
+  class HomeImpl impl;
+```
+
+Because `orders:impl` depends on `home:api` (and vice-versa), and the `api` modules do not depend on each other's implementations, the compiler is happy, builds can be parallelized, and features remain completely isolated.
 
 ---
 
