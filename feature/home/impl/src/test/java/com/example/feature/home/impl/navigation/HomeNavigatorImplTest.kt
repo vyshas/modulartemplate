@@ -1,6 +1,5 @@
 package com.example.feature.home.impl.navigation
 
-import android.content.Context
 import com.example.feature.home.api.HomeDestination
 import com.example.feature.home.impl.ui.homedetail.HomeDetailActivity
 import org.junit.Assert.assertEquals

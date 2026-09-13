@@ -26,7 +26,7 @@ class GetRecipesUseCaseImplTest {
             difficulty = "Easy",
             ingredients = listOf("Pasta"),
             instructions = listOf("Cook"),
-            mealType = listOf("Dinner")
+            mealType = listOf("Dinner"),
         )
         val expectedResult = DomainResult.Success(listOf(mockRecipe))
         coEvery { repository.getRecipes() } returns expectedResult

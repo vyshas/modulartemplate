@@ -93,7 +93,7 @@ class HomeDetailViewModelTest {
                 assertEquals(errorMessage, (errorState as HomeDetailUiState.Error).message)
                 cancelAndConsumeRemainingEvents()
             }
-            
+
             // Check effect
             val effect = awaitItem()
             assertTrue(effect is HomeDetailUiEffect.ShowToast)
