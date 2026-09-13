@@ -32,3 +32,6 @@ captures/
 
 # Test results
 test-results/
+
+# Build-Logic output
+build-logic/bin/
